@@ -53,6 +53,3 @@ BEGIN
   :new.Id_departamento := seq_departametno_id.NEXTVAL;
 END;
 /
-
-
-
