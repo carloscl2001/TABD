@@ -25,6 +25,15 @@ CREATE OR REPLACE TYPE Tipo_Persona AS OBJECT (
 );
 /
 
+-- Médico
+CREATE OR REPLACE TYPE Tipo_Medico AS OBJECT (
+    Id_medico NUMBER,
+    Datos_persona Tipo_Persona,
+    Id_departamento NUMBER,
+    Lista_citas Tipo_Lista_Citas -- Referencia a Tipo_Cita
+);
+/
+
 -- Cita
 CREATE OR REPLACE TYPE Tipo_Cita AS OBJECT (
     Id_cita NUMBER,
@@ -48,17 +57,14 @@ CREATE OR REPLACE TYPE Tipo_Paciente AS OBJECT (
 );
 /
 
--- Médico
-CREATE OR REPLACE TYPE Tipo_Medico AS OBJECT (
-    Id_medico NUMBER,
-    Datos_persona Tipo_Persona,
-    Id_departamento NUMBER,
-    Lista_citas Tipo_Lista_Citas -- Referencia a Tipo_Cita
-);
-/
 
----- Lista de diagnósticos por medicamento
-CREATE OR REPLACE TYPE Tipo_Diagnosticos_Medicamento AS TABLE OF REF Tipo_Diagnostico;
+
+-- Primero definimos los tipos sin referencias cruzadas
+CREATE OR REPLACE TYPE Tipo_Diagnostico AS OBJECT (
+    Id_diagnostico NUMBER,
+    Descripcion VARCHAR(100),
+    Recomendacion VARCHAR(100)
+);
 /
 
 CREATE OR REPLACE TYPE Tipo_Medicamento AS OBJECT (
@@ -66,24 +72,21 @@ CREATE OR REPLACE TYPE Tipo_Medicamento AS OBJECT (
     Nombre VARCHAR(20),
     Descripcion VARCHAR2(100),
     Stock NUMBER,
-    Precio FLOAT,
-    Lista_diagnosticos Tipo_Diagnosticos_Medicamento
+    Precio FLOAT
 );
 /
 
+-- Luego, agregamos las referencias cruzadas
+CREATE OR REPLACE TYPE Tipo_Diagnosticos_Medicamento AS TABLE OF REF Tipo_Diagnostico;
+/
 
--- Diagnóstico
----- Medicamentos por diagnóstico
 CREATE OR REPLACE TYPE Tipo_Medicamentos_Diagnostico AS TABLE OF REF Tipo_Medicamento;
 /
 
-CREATE OR REPLACE TYPE Tipo_Diagnostico AS OBJECT (
-    Id_diagnostico NUMBER,
-    Id_cita REF Tipo_Cita,
-    Descripcion VARCHAR(100),
-    Recomendacion VARCHAR(100),
-    Lista_medicamentos Tipo_Medicamentos_Diagnostico
-);
+ALTER TYPE Tipo_Medicamento ADD ATTRIBUTE Lista_diagnosticos Tipo_Diagnosticos_Medicamento CASCADE;
+/
+
+ALTER TYPE Tipo_Diagnostico ADD ATTRIBUTE Lista_medicamentos Tipo_Medicamentos_Diagnostico CASCADE;
 /
 
 
