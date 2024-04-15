@@ -107,6 +107,8 @@ ALTER TYPE Tipo_Paciente ADD ATTRIBUTE Lista_citas Tipo_Citas_Paciente CASCADE;
 ALTER TYPE Tipo_Diagnostico ADD ATTRIBUTE Lista_citas Tipo_Citas_Diagnostico CASCADE;
 /
 
+ALTER TYPE Tipo_Diagnostico ADD ATTRIBUTE Id_cita REF Tipo_Cita CASCADE;
+
 ALTER TYPE Tipo_Cita ADD ATTRIBUTE Id_medico REF Tipo_Medico CASCADE;
 /
 
