@@ -29,17 +29,13 @@ CREATE OR REPLACE TYPE Tipo_Persona AS OBJECT (
 CREATE OR REPLACE TYPE Tipo_Medico AS OBJECT (
     Id_medico NUMBER,
     Datos_persona Tipo_Persona,
-    Id_departamento NUMBER,
-    Lista_citas Tipo_Lista_Citas -- Referencia a Tipo_Cita
+    Id_departamento NUMBER
 );
 /
 
 -- Cita
 CREATE OR REPLACE TYPE Tipo_Cita AS OBJECT (
     Id_cita NUMBER,
-    Id_medico REF Tipo_Medico, -- Referencia a Tipo_Medico
-    Id_paciente REF Tipo_Paciente,
-    Id_diagnostico REF Tipo_Diagnostico,
     Fecha_cita DATE,
     Hora_cita DATE
 );
@@ -52,12 +48,9 @@ CREATE OR REPLACE TYPE Tipo_Lista_Citas AS TABLE OF REF Tipo_Cita;
 
 CREATE OR REPLACE TYPE Tipo_Paciente AS OBJECT (
     Id_paciente NUMBER,
-    Datos_persona Tipo_Persona,
-    Lista_citas Tipo_Lista_Citas
+    Datos_persona Tipo_Persona
 );
 /
-
-
 
 -- Primero definimos los tipos sin referencias cruzadas
 CREATE OR REPLACE TYPE Tipo_Diagnostico AS OBJECT (
@@ -89,6 +82,39 @@ ALTER TYPE Tipo_Medicamento ADD ATTRIBUTE Lista_diagnosticos Tipo_Diagnosticos_M
 ALTER TYPE Tipo_Diagnostico ADD ATTRIBUTE Lista_medicamentos Tipo_Medicamentos_Diagnostico CASCADE;
 /
 
+-- Luego, agregamos las referencias cruzadas
+CREATE OR REPLACE TYPE Tipo_Citas_Medico AS TABLE OF REF Tipo_Cita;
+/
+
+CREATE OR REPLACE TYPE Tipo_Citas_Paciente AS TABLE OF REF Tipo_Cita;
+/
+
+CREATE OR REPLACE TYPE Tipo_Citas_Diagnostico AS TABLE OF REF Tipo_Cita;
+/
+
+CREATE OR REPLACE TYPE Tipo_Medicos_Cita AS TABLE OF REF Tipo_Medico;
+/
+
+CREATE OR REPLACE TYPE Tipo_Pacientes_Cita AS TABLE OF REF Tipo_Paciente;
+/
+
+ALTER TYPE Tipo_Medico ADD ATTRIBUTE Lista_citas Tipo_Citas_Medico CASCADE;
+/
+
+ALTER TYPE Tipo_Paciente ADD ATTRIBUTE Lista_citas Tipo_Citas_Paciente CASCADE;
+/
+
+ALTER TYPE Tipo_Diagnostico ADD ATTRIBUTE Lista_citas Tipo_Citas_Diagnostico CASCADE;
+/
+
+ALTER TYPE Tipo_Cita ADD ATTRIBUTE Id_medico REF Tipo_Medico CASCADE;
+/
+
+ALTER TYPE Tipo_Cita ADD ATTRIBUTE Id_paciente REF Tipo_Paciente CASCADE;
+/
+
+ALTER TYPE Tipo_Cita ADD ATTRIBUTE Id_diagnostico REF Tipo_Diagnostico CASCADE;
+/
 
 -- Departamento
 -- Lista de medicos
