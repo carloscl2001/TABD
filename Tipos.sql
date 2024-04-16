@@ -1,6 +1,6 @@
--- Creaci�n de tipos propios
+-- Creacion de tipos propios
 
--- Direcci�n
+-- Direccion
 CREATE OR REPLACE TYPE Tipo_Direccion AS OBJECT (
     Ciudad VARCHAR2(25),
     Calle VARCHAR2(50)

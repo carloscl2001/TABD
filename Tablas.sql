@@ -1,6 +1,7 @@
 -- Tabla Paciente
 CREATE TABLE Tabla_Paciente OF Tipo_Paciente (
-    CONSTRAINT pk_paciente PRIMARY KEY (Id_paciente)
+    CONSTRAINT pk_paciente PRIMARY KEY (Id_paciente),
+    CONSTRAINT ak_paciente UNIQUE(Email)
 );
 
 -- Tabla Departamento
@@ -11,6 +12,7 @@ CREATE TABLE Tabla_Departamento OF Tipo_Departamento (
 -- Tabla Médico
 CREATE TABLE Tabla_Medico OF Tipo_Medico (
     CONSTRAINT pk_medico PRIMARY KEY (Id_medico),
+     CONSTRAINT ak_paciente UNIQUE(Email),
     CONSTRAINT fk_medico_departamento FOREIGN KEY (Id_departamento) REFERENCES Tabla_Departamento(Id_departamento)
 );
 

@@ -1,6 +1,6 @@
 --TRIGGER ID_PACIENTE
 CREATE OR REPLACE TRIGGER trg_paciente_id
-BEFORE INSERT ON Paciente
+BEFORE INSERT ON Tabla_Paciente
 FOR EACH ROW
 BEGIN
   :new.Id_paciente := seq_paciente_id.NEXTVAL;
@@ -51,5 +51,15 @@ BEFORE INSERT ON Departamento
 FOR EACH ROW
 BEGIN
   :new.Id_departamento := seq_departametno_id.NEXTVAL;
+END;
+/
+
+
+--TRIGGER ID_HOSPITAL
+CREATE OR REPLACE TRIGGER trg_hospital_id
+BEFORE INSERT ON Hospital
+FOR EACH ROW
+BEGIN
+  :new.Id_hospital := seq_hospital_id.NEXTVAL;
 END;
 /
