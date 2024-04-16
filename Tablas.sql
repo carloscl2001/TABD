@@ -1,54 +1,39 @@
---CREACION DE TABLAS
-
---Medicamento
-CREATE TABLE Medicamento OF Tipo_Medicamento(
-    CONSTRAINT PK_Medicamento PRIMARY KEY(Id_medicamento)
-)
-NESTED TABLE Lista_diagnosticos STORE AS Diagnosticos_del_medicamento;
-/
-
---Diagnostico
-CREATE TABLE Diagnostico OF Tipo_Diagnostico(
-    CONSTRAINT PK_Diagnostico PRIMARY KEY(Id_diagnostico),
-    Id_cita NOT NULL
-)
-NESTED TABLE Lista_medicamentos STORE AS Medicamentos_del_diagnostico;
-/
-
---Cita
-CREATE TABLE Cita OF Tipo_Cita(
-    CONSTRAINT PK_Cita PRIMARY KEY(Id_cita),
-    Id_medico  NOT NULL,
-    Id_paciente NOT NULL,
-    Id_diagnostico NOT NULL
+-- Tabla Paciente
+CREATE TABLE Tabla_Paciente OF Tipo_Paciente (
+    CONSTRAINT pk_paciente PRIMARY KEY (Id_paciente)
 );
-/
 
---Medico
-CREATE TABLE Medico OF Tipo_Medico(
-    CONSTRAINT PK_Medico PRIMARY KEY(Id_medico),
-    CONSTRAINT FK_Id_medico FOREIGN KEY(Id_departamento) REFERENCES Departamento(Id_departamento)
-)
-NESTED TABLE Lista_citas STORE AS Citas_del_medico;
-/
+-- Tabla Departamento
+CREATE TABLE Tabla_Departamento OF Tipo_Departamento (
+    CONSTRAINT pk_departamento PRIMARY KEY (Id_departamento)
+);
 
---Paciente
-CREATE TABLE Paciente OF Tipo_Paciente(
-    CONSTRAINT PK_Paciente PRIMARY KEY(Id_paciente)
-)
-NESTED TABLE Lista_citas STORE AS Citas_del_paciente;
-/
+-- Tabla Médico
+CREATE TABLE Tabla_Medico OF Tipo_Medico (
+    CONSTRAINT pk_medico PRIMARY KEY (Id_medico),
+    CONSTRAINT fk_medico_departamento FOREIGN KEY (Id_departamento) REFERENCES Tabla_Departamento(Id_departamento)
+);
 
---DEPARTAMENTO
-CREATE TABLE Departamento OF Tipo_Departamento(
-    CONSTRAINT PK_Departamento PRIMARY KEY(Id_departamento)
-)
-NESTED TABLE Lista_medicos STORE AS Medicos_del_departamento;
-/
+-- Tabla Diagnóstico
+CREATE TABLE Tabla_Diagnostico OF Tipo_Diagnostico (
+    CONSTRAINT pk_diagnostico PRIMARY KEY (Id_diagnostico)
+);
 
---HOSPITAL
-CREATE TABLE Hospital OF Tipo_Hospital(
-    CONSTRAINT PK_Hospital PRIMARY KEY(Nombre)
-)
-NESTED TABLE Lista_departamentos STORE AS Departamentos_del_hospital;
-/
+-- Tabla Cita
+CREATE TABLE Tabla_Cita OF Tipo_Cita (
+    CONSTRAINT pk_cita PRIMARY KEY (Id_cita),
+    CONSTRAINT fk_cita_medico FOREIGN KEY (Id_medico) REFERENCES Tabla_Medico(Id_medico),
+    CONSTRAINT fk_cita_paciente FOREIGN KEY (Id_paciente) REFERENCES Tabla_Paciente(Id_paciente),
+    CONSTRAINT fk_cita_diagnostico FOREIGN KEY (Id_diagnostico) REFERENCES Tabla_Diagnostico(Id_diagnostico)
+);
+
+-- Tabla Medicamento
+CREATE TABLE Tabla_Medicamento OF Tipo_Medicamento (
+    CONSTRAINT pk_medicamento PRIMARY KEY (Id_medicamento),
+    CONSTRAINT fk_medicamento_diagnostico FOREIGN KEY (Id_diagnostico) REFERENCES Tabla_Diagnostico(Id_diagnostico)
+);
+
+-- Tabla Hospital
+CREATE TABLE Tabla_Hospital OF Tipo_Hospital (
+    CONSTRAINT pk_hospital PRIMARY KEY (Id_hospital)
+);
