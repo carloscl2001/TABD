@@ -7,38 +7,30 @@ CREATE OR REPLACE TYPE Tipo_Direccion AS OBJECT (
 );
 /
 
--- Usuario
-CREATE OR REPLACE TYPE Tipo_Usuario AS OBJECT (
-    Email VARCHAR2(20),
-    PIN NUMBER(8)
-);
-/
-
--- Persona
-CREATE OR REPLACE TYPE Tipo_Persona AS OBJECT (
-    Nombre VARCHAR2(20), 
-    Apellidos VARCHAR2(20),
-    Telefono NUMBER(9),
-    Direccion Tipo_Direccion,
-    Datos_usuario Tipo_Usuario,
-    Fecha_nacimiento DATE
-);
-/
-
---Creacion de tipos especificos
-
 --Paciente
 CREATE OR REPLACE TYPE Tipo_Paciente AS OBJECT (
     Id_paciente NUMBER,
-    Datos_persona Tipo_Persona
+    Nombre VARCHAR2(20), 
+    Apellidos VARCHAR2(20),
+    Telefono NUMBER(9),
+    Fecha_nacimiento DATE,
+    Direccion Tipo_Direccion,   
+    Email VARCHAR2(20),
+    PIN NUMBER(8)
 );
 /
 
 -- M�dico
 CREATE OR REPLACE TYPE Tipo_Medico AS OBJECT (
     Id_medico NUMBER,
-    Datos_persona Tipo_Persona,
-    Id_departamento NUMBER
+    Id_departamento NUMBER,
+    Nombre VARCHAR2(20), 
+    Apellidos VARCHAR2(20),
+    Telefono NUMBER(9),
+    Fecha_nacimiento DATE,
+    Direccion Tipo_Direccion,   
+    Email VARCHAR2(20),
+    PIN NUMBER(8)
 );
 /
 

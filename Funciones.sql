@@ -1,21 +1,26 @@
 -- Procedimiento para insertar datos en la tabla Paciente
 CREATE OR REPLACE PROCEDURE Insertar_Paciente(
-    nombre_paciente IN VARCHAR2,
-    apellidos_paciente IN VARCHAR2,
-    telefono_paciente IN NUMBER,
+    nombre IN VARCHAR2,
+    apellidos IN VARCHAR2,
+    telefono IN NUMBER,
     fecha_nacimiento IN DATE,
-    ciudad_paciente IN VARCHAR2,
-    calle_paciente IN VARCHAR2,
-    email_usuario IN VARCHAR2
+    ciudad IN VARCHAR2,
+    calle IN VARCHAR2,
+    email IN VARCHAR2,
+    pin IN NUMBER
 )
 IS
-    v_direccion Tipo_Direccion := Tipo_Direccion(ciudad_paciente, calle_paciente);
-    v_usuario Tipo_Usuario := Tipo_Usuario(email_usuario, 12345678);
-    v_persona Tipo_Persona := Tipo_Persona(nombre_paciente, apellidos_paciente, telefono_paciente, v_direccion, v_usuario, fecha_nacimiento);
+    v_direccion Tipo_Direccion := Tipo_Direccion(ciudad, calle);
 BEGIN
 
     -- Insertar datos en la tabla Paciente
-    INSERT INTO Tabla_Paciente(Datos_persona)
-    VALUES (v_persona);
+    INSERT INTO Tabla_Paciente(Nombre, Apellidos, Telefono, Fecha_nacimiento, Direccion, Email, PIN)
+    VALUES (nombre, apellidos, telefono, fecha_nacimiento, v_direccion, email, pin);
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Paciente insertado correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('Error al insertar el paciente: ' || SQLERRM);
 END;
 /
