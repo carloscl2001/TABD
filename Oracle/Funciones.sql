@@ -1,4 +1,6 @@
--- Procedimiento para insertar datos en la Tabla_Paciente-
+SET SERVEROUTPUT ON;
+
+-- Crear el procedimiento para insertar pacientes
 CREATE OR REPLACE PROCEDURE Insertar_Paciente(
     nombre IN VARCHAR2,
     apellidos IN VARCHAR2,
@@ -12,16 +14,19 @@ CREATE OR REPLACE PROCEDURE Insertar_Paciente(
 IS
     v_direccion Tipo_Direccion := Tipo_Direccion(ciudad, calle);
 BEGIN
-
     -- Insertar datos en la tabla Paciente
     INSERT INTO Tabla_Paciente(Nombre, Apellidos, Telefono, Fecha_nacimiento, Direccion, Email, PIN)
     VALUES (nombre, apellidos, telefono, fecha_nacimiento, v_direccion, email, pin);
+    
     COMMIT;
     DBMS_OUTPUT.PUT_LINE('Paciente insertado correctamente');
 EXCEPTION
+    WHEN DUP_VAL_ON_INDEX THEN -- Capturar la excepción de clave duplicada (violación de restricción única)
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el paciente: El correo electrónico ya existe');
     WHEN OTHERS THEN
         ROLLBACK;
-    DBMS_OUTPUT.PUT_LINE('Error al insertar el paciente: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el paciente: ' || SQLERRM);
 END;
 /
 
@@ -108,7 +113,7 @@ BEGIN
     VALUES (v_id_departamento, nombre, apellidos, telefono, fecha_nacimiento, v_direccion, email, pin);
 
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('MÃ©dico insertado correctamente');
+    DBMS_OUTPUT.PUT_LINE('Medico insertado correctamente');
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
         ROLLBACK;

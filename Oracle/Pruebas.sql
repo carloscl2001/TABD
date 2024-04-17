@@ -1,3 +1,4 @@
+SET SERVEROUTPUT ON
 -- Procedimiento para insertar datos en la Tabla_Paciente
 DECLARE
 BEGIN
@@ -36,7 +37,7 @@ END;
 -- Procedimiento para insertar datos en la Tabla_Cita
 DECLARE
 BEGIN
-    Insertar_Cita_sin_Paciente(3, TO_DATE('2024-04-17', 'YYYY-MM-DD'), TO_DATE('1:30', 'HH24:MI'));
+    Insertar_Cita_sin_Paciente(6, TO_DATE('2024-04-17', 'YYYY-MM-DD'), TO_DATE('1:30', 'HH24:MI'));
 END;
 /
 
