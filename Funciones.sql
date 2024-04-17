@@ -77,24 +77,7 @@ END;
 /
 
 
--- Procedimiento para insertar datos en la Tabla_Diagnostico
-CREATE OR REPLACE PROCEDURE Insertar_Diagnostico(
-    descripcion IN VARCHAR2,
-    recomendacion IN VARCHAR2
-)
-IS
-BEGIN
-    -- Insertar datos en la tabla Diagnostico
-    INSERT INTO Tabla_Diagnostico(Descripcion, Recomendacion)
-    VALUES (descripcion, recomendacion);
-    COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Diagnóstico insertado correctamente');
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al insertar el diagnóstico: ' || SQLERRM);
-END;
-/
+
 
 --Procedimiento para insertar datos en Tabla_Medico-
 CREATE OR REPLACE PROCEDURE Insertar_Medico(
@@ -138,46 +121,13 @@ END;
 
 
 
+-- Procedimiento para insertar datos en la Insertar_Cita_General
+CREATE OR REPLACE PROCEDURE Insertar_Cita_General()
+
 -- Procedimiento para insertar datos en la Tabla_Cita
-CREATE OR REPLACE PROCEDURE Insertar_Cita_sin_Paciente(
-    id_medico IN NUMBER,
-    fecha IN DATE,
-    hora IN DATE
-)
-IS
-BEGIN
-    
-    -- Insertar datos en la tabla Cita
-    INSERT INTO Tabla_Cita(Id_medico, Fecha, Hora, Estado)
-    VALUES (id_medico, fecha, hora, 'nopaciente');
-    COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Cita insertada correctamente');
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al insertar la cita: ' || SQLERRM);
-END;
-/
+CREATE OR REPLACE PROCEDURE Insertar_Cita_Especializada()
 
 -- Procedimiento para insertar datos en la Tabla_Medicamento
-CREATE OR REPLACE PROCEDURE Insertar_Medicamento(
-    id_diagnostico IN NUMBER,
-    nombre IN VARCHAR2,
-    descripcion IN VARCHAR2,
-    stock IN NUMBER,
-    precio IN FLOAT
-)
-IS
-BEGIN
-    -- Insertar datos en la tabla Medicamento
-    INSERT INTO Tabla_Medicamento(Id_diagnostico, Nombre, Descripcion, Stock, Precio)
-    VALUES (id_diagnostico, nombre, descripcion, stock, precio);
-    COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Medicamento insertado correctamente');
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al insertar el medicamento: ' || SQLERRM);
-END;
-/
 
+
+--Procedimiento para que el 
