@@ -1,4 +1,9 @@
+
+--TRIGGER ID_HOSPITAL
+CREATE OR REPLACE TRIGGER trg_hospital_id
+BEFORE INSERT ON Tabla_Hospital
+FOR EACH ROW
 BEGIN
-    Insertar_Paciente('Juan', 'Pérez', 123456789, TO_DATE('1990-01-01', 'YYYY-MM-DD'), 'Ciudad', 'Calle', 'juan@example.com', 1234);
+  :new.Id_hospital := seq_hospital_id.NEXTVAL;
 END;
 /
