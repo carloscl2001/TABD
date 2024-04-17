@@ -48,7 +48,7 @@ CREATE OR REPLACE TRIGGER trg_departamento_id
 BEFORE INSERT ON Tabla_Departamento
 FOR EACH ROW
 BEGIN
-  :new.Id_departamento := seq_departametno_id.NEXTVAL;
+  :new.Id_departamento := seq_departamento_id.NEXTVAL;
 END;
 /
 
