@@ -139,19 +139,17 @@ END;
 
 
 -- Procedimiento para insertar datos en la Tabla_Cita
-CREATE OR REPLACE PROCEDURE Insertar_Cita(
+CREATE OR REPLACE PROCEDURE Insertar_Cita_sin_Paciente(
     id_medico IN NUMBER,
-    id_paciente IN NUMBER,
-    id_diagnostico IN NUMBER,
-    fecha_cita IN DATE,
-    hora_cita IN DATE,
-    estado IN VARCHAR2
+    fecha IN DATE,
+    hora IN DATE
 )
 IS
 BEGIN
+    
     -- Insertar datos en la tabla Cita
-    INSERT INTO Tabla_Cita(Id_medico, Id_paciente, Id_diagnostico, Fecha_cita, Hora_cita, Estado)
-    VALUES (id_medico, id_paciente, id_diagnostico, fecha_cita, hora_cita, estado);
+    INSERT INTO Tabla_Cita(Id_medico, Fecha, Hora, Estado)
+    VALUES (id_medico, fecha, hora, 'nopaciente');
     COMMIT;
     DBMS_OUTPUT.PUT_LINE('Cita insertada correctamente');
 EXCEPTION
