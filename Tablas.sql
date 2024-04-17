@@ -7,7 +7,8 @@ CREATE TABLE Tabla_Paciente OF Tipo_Paciente (
 
 -- Tabla Departamento
 CREATE TABLE Tabla_Departamento OF Tipo_Departamento (
-    CONSTRAINT pk_departamento PRIMARY KEY (Id_departamento)
+    CONSTRAINT pk_departamento PRIMARY KEY (Id_departamento),
+    CONSTRAINT ak_departamento UNIQUE(Nombre)
 );
 /
 
@@ -37,12 +38,14 @@ CREATE TABLE Tabla_Cita OF Tipo_Cita (
 -- Tabla Medicamento
 CREATE TABLE Tabla_Medicamento OF Tipo_Medicamento (
     CONSTRAINT pk_medicamento PRIMARY KEY (Id_medicamento),
-    CONSTRAINT fk_medicamento_diagnostico FOREIGN KEY (Id_diagnostico) REFERENCES Tabla_Diagnostico(Id_diagnostico)
+    CONSTRAINT fk_medicamento_diagnostico FOREIGN KEY (Id_diagnostico) REFERENCES Tabla_Diagnostico(Id_diagnostico),
+    CONSTRAINT ak_medicamento UNIQUE(Nombre)
 );
 /
 
 -- Tabla Hospital
 CREATE TABLE Tabla_Hospital OF Tipo_Hospital (
-    CONSTRAINT pk_hospital PRIMARY KEY (Id_hospital)
+    CONSTRAINT pk_hospital PRIMARY KEY (Id_hospital),
+    CONSTRAINT ak_hospital_nombre UNIQUE(Nombre)
 );
 /
