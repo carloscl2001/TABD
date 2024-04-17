@@ -13,7 +13,6 @@ BEFORE INSERT ON Tabla_Medico
 FOR EACH ROW
 BEGIN
   :new.Id_medico := seq_medico_id.NEXTVAL;
-  :new.Pin := seq_usuario_pin.NEXTVAL;
 END;
 /
 
