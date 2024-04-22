@@ -1,6 +1,8 @@
+<DOCTYPE HTML>
+<meta charset = "utf8"/>
+
 <?php
-// FUNCION QUE CONECTA A LA BASE DE DATOS
-function conexion() {
+
 
     $usuario = 'prueba';
     $contrasenna = 'prueba';
@@ -18,7 +20,8 @@ function conexion() {
     if (!$conn) {
         $e = oci_error();
         trigger_error(htmlentities($e['Error de conexión'], ENT_QUOTES), E_USER_ERROR);
+    }else{
+        echo "Conexión";
     }
     return $conn;
-}
 ?>
