@@ -2,15 +2,11 @@
 <meta charset = "utf8"/>
 
 <?php
+function conexion() {
 
-
-    $usuario = 'prueba';
-    $contrasenna = 'prueba';
+    $usuario = 'usuario';
+    $contrasenna = 'usuario';
     $servidor_baseDeDatos = '//localhost:1521/XEPDB1';
-
-    //$usuario = 'System';
-    //$contrasenna = 'MiCarmen';
-    //$servidor_baseDeDatos = '//localhost:1521/XE';
 
     // $usuario = /*INTRODUZCA AQUI SU USUARIO*/;
     // $contrasenna = /*INTRODUZCA AQUI SU CONTRASEÑA*/;
@@ -21,7 +17,8 @@
         $e = oci_error();
         trigger_error(htmlentities($e['Error de conexión'], ENT_QUOTES), E_USER_ERROR);
     }else{
-        echo "Conexión";
+        //echo "Conexión con Oracle exitosa";
     }
     return $conn;
+}
 ?>

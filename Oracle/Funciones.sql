@@ -126,11 +126,25 @@ END;
 
 
 
--- Procedimiento para insertar datos en la Insertar_Cita_General
-CREATE OR REPLACE PROCEDURE Insertar_Cita_General()
+create or replace PROCEDURE Insertar_Cita_sin_Paciente(
+    id_medico IN NUMBER,
+    fecha IN DATE,
+    hora IN DATE
+)
+IS
+BEGIN
 
--- Procedimiento para insertar datos en la Tabla_Cita
-CREATE OR REPLACE PROCEDURE Insertar_Cita_Especializada()
+    -- Insertar datos en la tabla Cita
+    INSERT INTO Tabla_Cita(Id_medico, Fecha, Hora, Estado)
+    VALUES (id_medico, fecha, hora, 'nopaciente');
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Cita insertada correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al insertar la cita: ' || SQLERRM);
+END;
+/
 
 -- Procedimiento para insertar datos en la Tabla_Medicamento
 

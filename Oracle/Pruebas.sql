@@ -17,7 +17,7 @@ END;
 -- Procedimiento para insertar datos en la Tabla_Departamento
 DECLARE
 BEGIN
-    Insertar_Departamento('Hospital Central', 'Cardiología', 'Piso 5');
+    Insertar_Departamento('Hospital Central', 'Cardiologia', 'Piso 5');
 END;
 /
 

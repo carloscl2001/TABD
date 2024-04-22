@@ -1,4 +1,33 @@
 -- Eliminar las tablas en el orden inverso al que se crearon
+DROP PROCEDURE Insertar_Paciente;
+DROP PROCEDURE Insertar_Hospital;
+DROP PROCEDURE Insertar_Departamento;
+DROP PROCEDURE Insertar_Medico;
+DROP PROCEDURE Insertar_Cita_General;
+DROP PROCEDURE Insertar_Cita_Especializada;
+DROP PROCEDURE Insertar_Medicamento;
+DROP PROCEDURE Insertar_Cita_Sin_Paciente;
+
+
+
+DROP TRIGGER trg_paciente_id;
+DROP TRIGGER trg_medico_id;
+DROP TRIGGER trg_cita_id;
+DROP TRIGGER trg_diagnostico_id;
+DROP TRIGGER trg_medicamento_id;
+DROP TRIGGER trg_departamento_id;
+DROP TRIGGER trg_hospital_id;
+
+
+DROP SEQUENCE seq_paciente_id;
+DROP SEQUENCE seq_medico_id;
+DROP SEQUENCE seq_cita_id;
+DROP SEQUENCE seq_diagnostico_id;
+DROP SEQUENCE seq_medicamento_id;
+DROP SEQUENCE seq_departamento_id;
+DROP SEQUENCE seq_hospital_id;
+
+
 
 -- Tabla Hospital
 DROP TABLE Tabla_Hospital;
@@ -48,3 +77,7 @@ DROP TYPE Tipo_Paciente;
 
 -- Tipo Direccion
 DROP TYPE Tipo_Direccion;
+
+
+
+

@@ -14,14 +14,46 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
-    <link rel="stylesheet" href="css/register-paciente.css">
+    <link rel="stylesheet" href="css/register.css">
     <!-- Enlace al archivo JavaScript -->
     
 </head>
 <body>
 
+<?php
+    // Conexión a la base de datos Oracle
+    include('conexion.php');
+    $conexion = conexion();
 
+    // Comprobar si se envió el formulario
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        // Recuperar datos del formulario
+        $nombre = $_POST["nombre"];
+        $apellidos = $_POST["apellidos"];
+        $telefono = $_POST["telefono"];
+        $fecha_nacimiento = $_POST["fecha"];
+        $ciudad = $_POST["ciudad"];
+        $calle = $_POST["calle"];
+        $email = $_POST["email"];
+        $pin = $_POST["pin"];
+        $departamento = $_POST["departamento"];
 
+        // Preparar y ejecutar la consulta SQL
+        $sql = "BEGIN Insertar_Medico(:departamento, :nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
+        $stid = oci_parse($conexion, $sql);
+        oci_bind_by_name($stid, ":nombre", $nombre);
+        oci_bind_by_name($stid, ":apellidos", $apellidos);
+        oci_bind_by_name($stid, ":telefono", $telefono);
+        oci_bind_by_name($stid, ":fecha_nacimiento", $fecha_nacimiento);
+        oci_bind_by_name($stid, ":ciudad", $ciudad);
+        oci_bind_by_name($stid, ":calle", $calle);
+        oci_bind_by_name($stid, ":email", $email);
+        oci_bind_by_name($stid, ":pin", $pin);
+        oci_bind_by_name($stid, ":departamento", $departamento);
+        oci_execute($stid);
+        oci_error();
+    }
+?>
 
     <header>   
         <nav>
@@ -30,8 +62,9 @@
     </header>
 
     <div id="contenedor">
-        <h1>Registro de paciente<span class="material-symbols-outlined">
-            personal_injury</span>
+        <h1>Registro de médico<span class="material-symbols-outlined">
+            stethoscope
+        </span>
         </h1>
     
         <form action="#" method="post" id="formulario">
@@ -40,8 +73,8 @@
     
             <br><br>
     
-            <label for="apellido">Apellidos</label><br>
-            <input type="text" id="apellido" name="apellido" required>
+            <label for="apellidos">Apellidos</label><br>
+            <input type="text" id="apellidos" name="apellidos" required>
     
             <br><br>
     
@@ -75,6 +108,11 @@
            
             <br><br>
             
+            <label for="departamento">Departamento</label><br>
+            <input type="text" id="departamento" name="departamento" required> 
+
+            <br><br>
+
             <button type="submit">Enviar</button>
     
         </form>
