@@ -2,7 +2,8 @@ SET SERVEROUTPUT ON
 -- Procedimiento para insertar datos en la Tabla_Paciente
 DECLARE
 BEGIN
-    Insertar_Paciente('Juan', 'González', 123456789, TO_DATE('1990-05-15', 'YYYY-MM-DD'), 'Ciudad', 'Calle', 'juan@example.com', 1234);
+    Insertar_Paciente('PAblo', 'Cortés', 644326265, TO_DATE('2024-04-06', 'YYYY-MM-DD'), 'San Fernando, Cádiz', 'Albina,31', 'carlosantonio.uca.es', 12345678);
+     
 END;
 /
 

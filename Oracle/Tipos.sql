@@ -2,7 +2,7 @@
 
 -- Direccion
 CREATE OR REPLACE TYPE Tipo_Direccion AS OBJECT (
-    Ciudad VARCHAR2(25),
+    Ciudad VARCHAR2(50),
     Calle VARCHAR2(50)
 );
 /
@@ -10,12 +10,12 @@ CREATE OR REPLACE TYPE Tipo_Direccion AS OBJECT (
 --Paciente
 CREATE OR REPLACE TYPE Tipo_Paciente AS OBJECT (
     Id_paciente NUMBER,
-    Nombre VARCHAR2(25), 
-    Apellidos VARCHAR2(25),
+    Nombre VARCHAR2(50), 
+    Apellidos VARCHAR2(50),
     Telefono NUMBER(9),
     Fecha_nacimiento DATE,
     Direccion Tipo_Direccion,   
-    Email VARCHAR2(25),
+    Email VARCHAR2(50),
     PIN NUMBER(8)
 );
 /
@@ -24,12 +24,12 @@ CREATE OR REPLACE TYPE Tipo_Paciente AS OBJECT (
 CREATE OR REPLACE TYPE Tipo_Medico AS OBJECT (
     Id_medico NUMBER,
     Id_departamento NUMBER,
-    Nombre VARCHAR2(25), 
-    Apellidos VARCHAR2(25),
+    Nombre VARCHAR2(50), 
+    Apellidos VARCHAR2(50),
     Telefono NUMBER(9),
     Fecha_nacimiento DATE,
     Direccion Tipo_Direccion,   
-    Email VARCHAR2(25),
+    Email VARCHAR2(50),
     PIN NUMBER(8)
 );
 /
@@ -50,7 +50,7 @@ CREATE OR REPLACE TYPE Tipo_Cita AS OBJECT (
     Id_diagnostico NUMBER,
     Fecha DATE,
     Hora TIMESTAMP(0),
-    Estado VARCHAR(25)
+    Estado VARCHAR(50)
 );
 /
 
@@ -58,7 +58,7 @@ CREATE OR REPLACE TYPE Tipo_Cita AS OBJECT (
 CREATE OR REPLACE TYPE Tipo_Medicamento AS OBJECT (
     Id_medicamento NUMBER,
     Id_diagnostico NUMBER,
-    Nombre VARCHAR(25),
+    Nombre VARCHAR(50),
     Descripcion VARCHAR2(100),
     Stock NUMBER,
     Precio FLOAT
@@ -71,8 +71,8 @@ CREATE OR REPLACE TYPE Tipo_Medicamento AS OBJECT (
 CREATE OR REPLACE TYPE Tipo_Departamento AS OBJECT (
     Id_departamento NUMBER,
     Id_hospital NUMBER,
-    Nombre VARCHAR2(35),
-    Ubicacion VARCHAR2(25)
+    Nombre VARCHAR2(50),
+    Ubicacion VARCHAR2(50)
 );
 /
 
@@ -80,7 +80,7 @@ CREATE OR REPLACE TYPE Tipo_Departamento AS OBJECT (
 -- Hospital
 CREATE OR REPLACE TYPE Tipo_Hospital AS OBJECT (
     Id_hospital NUMBER,
-    Nombre VARCHAR2(35),
+    Nombre VARCHAR2(50),
     Direccion Tipo_Direccion
 );
 /
