@@ -146,6 +146,25 @@ EXCEPTION
 END;
 /
 
+CREATE OR REPLACE PROCEDURE Insertar_Diagnostico(
+    descripcion IN VARCHAR2,
+    recomendacion IN VARCHAR2
+)
+IS
+BEGIN
+    -- Insertar datos en la tabla Diagnostico
+    INSERT INTO Tabla_Diagnostico(Descripcion, Recomendacion)
+    VALUES (descripcion, recomendacion);
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Diagnóstico insertado correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el diagnóstico: ' || SQLERRM);
+END;
+/
+
+
 -- Procedimiento para insertar datos en la Tabla_Medicamento
 
 
