@@ -28,24 +28,12 @@
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
-        $nombre = $_POST["nombre"];
-        $apellidos = $_POST["apellidos"];
-        $telefono = $_POST["telefono"];
-        $fecha_nacimiento = $_POST["fecha"];
-        $ciudad = $_POST["ciudad"];
-        $calle = $_POST["calle"];
         $email = $_POST["email"];
         $pin = $_POST["pin"];
 
         // Preparar y ejecutar la consulta SQL
         $sql = "BEGIN Insertar_Paciente(:nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
         $stid = oci_parse($conexion, $sql);
-        oci_bind_by_name($stid, ":nombre", $nombre);
-        oci_bind_by_name($stid, ":apellidos", $apellidos);
-        oci_bind_by_name($stid, ":telefono", $telefono);
-        oci_bind_by_name($stid, ":fecha_nacimiento", $fecha_nacimiento);
-        oci_bind_by_name($stid, ":ciudad", $ciudad);
-        oci_bind_by_name($stid, ":calle", $calle);
         oci_bind_by_name($stid, ":email", $email);
         oci_bind_by_name($stid, ":pin", $pin);
         oci_execute($stid);
@@ -59,41 +47,12 @@
     </header>
 
     <div id="contenedor">
-        <h1>Registrarse como paciente<span class="material-symbols-outlined">
+        <h1>Iniciar sesión como paciente<span class="material-symbols-outlined">
             personal_injury</span>
         </h1>
     
         <form action="#" method="post" id="formulario">
-            <label for="nombre">Nombre</label><br>
-            <input type="text" id="nombre" name="nombre" required>
-    
-            <br><br>
-    
-            <label for="apellidos">Apellidos</label><br>
-            <input type="text" id="apellidos" name="apellidos" required>
-    
-            <br><br>
-    
-            <label for="telefono">Teléfono</label><br>
-            <input type="number" id="telefono" name="telefono" required>
-    
-            <br><br>
-    
-            <label for="fecha">Fecha de nacimiento</label><br>
-            <input type="date" id="fecha" name="fecha" required>
-                    
-            <br><br>
-            
-            <label for="ciudad">Ciudad</label><br>
-            <input type="text" id="ciudad" name="ciudad" required>
-            
-            <br><br>
-            
-            <label for="calle">Calle</label><br>
-            <input type="text" id="calle" name="calle" required>
-            
-            <br><br>
-    
+
             <label for="email">Email</label><br>
             <input type="text" id="email" name="email" required>
     
@@ -104,7 +63,7 @@
            
             <br><br>
             
-            <button type="submit">Registrarse</button>
+            <button type="submit">Entrar</button>
     
         </form>
         <br>

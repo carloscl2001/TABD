@@ -82,13 +82,11 @@ button{
 
 button:hover{
     background-color: #52ee57;
-    text-transform: uppercase;
 }
 
 input{
     margin-top: 0.5em;
     margin-left: 1em;
     width: calc(100% - 2.5em);
-    height: em;
 }
 

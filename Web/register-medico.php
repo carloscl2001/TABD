@@ -62,7 +62,7 @@
     </header>
 
     <div id="contenedor">
-        <h1>Registro de médico<span class="material-symbols-outlined">
+        <h1>Registrarse como médico<span class="material-symbols-outlined">
             stethoscope
         </span>
         </h1>
@@ -113,7 +113,7 @@
 
             <br><br>
 
-            <button type="submit">Enviar</button>
+            <button type="submit">Registrarse</button>
     
         </form>
         <br>
