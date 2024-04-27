@@ -82,7 +82,35 @@ END;
 /
 
 
+-- Procedimiento para insertar datos en la Tabla_Departamento-
+CREATE OR REPLACE PROCEDURE Insertar_Departamento(
+    nombre_hospital IN VARCHAR2,
+    nombre IN VARCHAR2,
+    ubicacion IN VARCHAR2
+)
+IS
+    v_id_hospital Tabla_Hospital.Id_Hospital%TYPE;
+BEGIN
+    -- Obtener el ID del hospital dado su nombre
+    SELECT Id_Hospital INTO v_id_hospital
+    FROM Tabla_Hospital
+    WHERE Nombre = nombre_hospital;
 
+    -- Insertar datos en la tabla Departamento
+    INSERT INTO Tabla_Departamento(Id_Hospital, Nombre, Ubicacion)
+    VALUES (v_id_hospital, nombre, ubicacion);
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Departamento insertado correctamente');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('El hospital especificado no existe');
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el departamento: ' || SQLERRM);
+END;
+/
 
 --Procedimiento para insertar datos en Tabla_Medico-
 CREATE OR REPLACE PROCEDURE Insertar_Medico(
