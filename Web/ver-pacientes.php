@@ -17,14 +17,14 @@
         $conexion = conexion();
 
 
-        $stid = oci_parse($conn, 'SELECT Id_paciente, Nombre, Apellidos, Telefono, Fecha_nacimiento, Direccion, Email, Pin FROM Tabla_Paciente ORDER BY Id_paciente');
+        $stid = oci_parse($conexion, 'SELECT Nombre, Apellidos, Telefono, Fecha_nacimiento, Email, Pin FROM Tabla_Paciente ORDER BY Id_paciente');
         oci_bind_by_name($stid, ':id_cliente', $id_cliente);
         oci_execute($stid);
             echo "<table class='table table-striped'>\n";
             echo "<thead>";
             echo "<tr>";
-            echo "<th>Numero de Cuenta Origen</th>";
-            echo "<th>Numero de Cuenta Destino</th>";
+            echo "<th>Nombre</th>";
+            echo "<th>Apellidos</th>";
             echo "<th>Cantidad</th>";
             echo "<th>Fecha</th>";
             echo "</tr>";
