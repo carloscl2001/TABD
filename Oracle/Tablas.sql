@@ -8,7 +8,7 @@ CREATE TABLE Tabla_Paciente OF Tipo_Paciente (
 -- Tabla Departamento
 CREATE TABLE Tabla_Departamento OF Tipo_Departamento (
     CONSTRAINT pk_departamento PRIMARY KEY (Id_departamento),
-    CONSTRAINT ak_departamento UNIQUE(Nombre)
+    CONSTRAINT ak_departamento UNIQUE(Nombre, Id_hospital)
 );
 /
 

@@ -30,6 +30,28 @@ EXCEPTION
 END;
 /
 
+CREATE OR REPLACE PROCEDURE Eliminar_Paciente(
+    email_paciente IN VARCHAR2
+)
+IS
+BEGIN
+    -- Eliminar el paciente basado en su dirección de correo electrónico
+    DELETE FROM Tabla_Paciente
+    WHERE Email = email_paciente;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Paciente eliminado correctamente');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN -- Capturar la excepción cuando no se encuentra ningún dato
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('El paciente especificado no existe');
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al eliminar el paciente: ' || SQLERRM);
+END;
+/
+
+
 -- Procedimiento para insertar datos en la Tabla_Hospital-
 CREATE OR REPLACE PROCEDURE Insertar_Hospital(
     nombre IN VARCHAR2,
@@ -51,33 +73,24 @@ EXCEPTION
 END;
 /
 
--- Procedimiento para insertar datos en la Tabla_Departamento-
-CREATE OR REPLACE PROCEDURE Insertar_Departamento(
-    nombre_hospital IN VARCHAR2,
-    nombre IN VARCHAR2,
-    ubicacion IN VARCHAR2
+CREATE OR REPLACE PROCEDURE Eliminar_Hospital(
+    nombre_hospital IN VARCHAR2
 )
 IS
-    v_id_hospital Tabla_Hospital.Id_Hospital%TYPE;
 BEGIN
-    -- Obtener el ID del hospital dado su nombre
-    SELECT Id_Hospital INTO v_id_hospital
-    FROM Tabla_Hospital
+    -- Eliminar el hospital basado en su nombre
+    DELETE FROM Tabla_Hospital
     WHERE Nombre = nombre_hospital;
-
-    -- Insertar datos en la tabla Departamento
-    INSERT INTO Tabla_Departamento(Id_Hospital, Nombre, Ubicacion)
-    VALUES (v_id_hospital, nombre, ubicacion);
-
+    
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Departamento insertado correctamente');
+    DBMS_OUTPUT.PUT_LINE('Hospital eliminado correctamente');
 EXCEPTION
-    WHEN NO_DATA_FOUND THEN
+    WHEN NO_DATA_FOUND THEN -- Capturar la excepción cuando no se encuentra ningún dato
         ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('El hospital especificado no existe');
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al insertar el departamento: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Error al eliminar el hospital: ' || SQLERRM);
 END;
 /
 
@@ -111,6 +124,42 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error al insertar el departamento: ' || SQLERRM);
 END;
 /
+
+CREATE OR REPLACE PROCEDURE Eliminar_Departamento(
+    nombre_departamento IN VARCHAR2,
+    nombre_hospital IN VARCHAR2
+)
+IS
+BEGIN
+    -- Obtener el ID del hospital dado su nombre
+    DECLARE
+        v_id_hospital Tabla_Hospital.Id_Hospital%TYPE;
+    BEGIN
+        SELECT Id_Hospital INTO v_id_hospital
+        FROM Tabla_Hospital
+        WHERE Nombre = nombre_hospital;
+
+        -- Eliminar el departamento basado en su nombre y el ID del hospital
+        DELETE FROM Tabla_Departamento
+        WHERE Nombre = nombre_departamento
+        AND Id_Hospital = v_id_hospital;
+
+        COMMIT;
+        DBMS_OUTPUT.PUT_LINE('Departamento eliminado correctamente');
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN -- Capturar la excepción cuando no se encuentra ningún dato
+            ROLLBACK;
+            DBMS_OUTPUT.PUT_LINE('El departamento especificado no existe');
+        WHEN OTHERS THEN
+            ROLLBACK;
+            DBMS_OUTPUT.PUT_LINE('Error al eliminar el departamento: ' || SQLERRM);
+    END;
+END;
+/
+
+
+
+
 
 --Procedimiento para insertar datos en Tabla_Medico-
 CREATE OR REPLACE PROCEDURE Insertar_Medico(
@@ -152,6 +201,26 @@ EXCEPTION
 END;
 /
 
+CREATE OR REPLACE PROCEDURE Eliminar_Medico(
+    email_medico IN VARCHAR2
+)
+IS
+BEGIN
+    -- Eliminar el médico basado en su dirección de correo electrónico
+    DELETE FROM Tabla_Medico
+    WHERE Email = email_medico;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Médico eliminado correctamente');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN -- Capturar la excepción cuando no se encuentra ningún dato
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('El médico especificado no existe');
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al eliminar el médico: ' || SQLERRM);
+END;
+/
 
 
 create or replace PROCEDURE Insertar_Cita_sin_Paciente(

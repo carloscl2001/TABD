@@ -31,7 +31,7 @@ END;
 -- Procedimiento para insertar datos en la Tabla_Medico
 DECLARE
 BEGIN
-    Insertar_Medico('Cardiolog?a', 'Pedro', 'L?pez', 987654321, TO_DATE('1985-03-20', 'YYYY-MM-DD'), 'Ciudad', 'Calle 2', 'pedro@example.com', 5678);
+    Insertar_Medico('Cardiologia', 'Pedro', 'L?pez', 987654321, TO_DATE('1985-03-20', 'YYYY-MM-DD'), 'Ciudad', 'Calle 2', 'pedro@example.com', 5678);
 END;
 /
 
@@ -42,6 +42,7 @@ BEGIN
 END;
 /
 
-
-SELECT TO_CHAR(hora, 'HH24:MI:SS') as "HORITA"
-FROM Tabla_Cita;
+BEGIN
+    Eliminar_Medico('carlosantonio.corteslora@alum.uca.es');
+END;
+/

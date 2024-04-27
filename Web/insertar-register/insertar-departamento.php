@@ -1,21 +1,21 @@
 <?php
     // Conexión a la base de datos Oracle
-    include('conexion.php');
+    include('../conexion.php');
     $conexion = conexion();
 
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
-        $nombre = $_POST["nombre"];
-        $ciudad = $_POST["ciudad"];
-        $calle = $_POST["calle"];
+        $nombre_hospital = $_POST["nombre_hospital"];
+        $nombre_departamento = $_POST["nombre_departamento"];
+        $ubicacion = $_POST["ubicacion"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Hospital(:nombre, :ciudad, :calle); END;";
+        $sql = "BEGIN Insertar_Departamento(:nombre_hospital, :nombre_departamento, :ubicacion); END;";
         $stid = oci_parse($conexion, $sql);
-        oci_bind_by_name($stid, ":nombre", $nombre);
-        oci_bind_by_name($stid, ":ciudad", $ciudad);
-        oci_bind_by_name($stid, ":calle", $calle);
+        oci_bind_by_name($stid, ":nombre_hospital", $nombre_hospital);
+        oci_bind_by_name($stid, ":nombre_departamento", $nombre_departamento);
+        oci_bind_by_name($stid, ":ubicacion", $ubicacion);
         oci_execute($stid);
         oci_error();
     }
@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registro de Hospital</title>
+    <title>Registro de Departamento</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Metadatos del autor y diseñador del sitio -->
@@ -36,7 +36,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="../css/register.css">
     <!-- Enlace al archivo JavaScript -->
     
 </head>
@@ -49,21 +49,21 @@
 </header>
 
 <div id="contenedor">
-    <h1>Registrar Hospital</h1>
+    <h1>Registrar Departamento</h1>
     
     <form action="#" method="post" id="formulario">
-        <label for="nombre">Nombre del hospital</label><br>
-        <input type="text" id="nombre" name="nombre" required>
+        <label for="nombre_hospital">Nombre del hospital</label><br>
+        <input type="text" id="nombre_hospital" name="nombre_hospital" required>
     
         <br><br>
     
-        <label for="ciudad">Ciudad</label><br>
-        <input type="text" id="ciudad" name="ciudad" required>
+        <label for="nombre_departamento">Nombre del departamento</label><br>
+        <input type="text" id="nombre_departamento" name="nombre_departamento" required>
             
         <br><br>
             
-        <label for="calle">Calle</label><br>
-        <input type="text" id="calle" name="calle" required>
+        <label for="ubicacion">Ubicación</label><br>
+        <input type="text" id="ubicacion" name="ubicacion" required>
             
         <br><br>
 
