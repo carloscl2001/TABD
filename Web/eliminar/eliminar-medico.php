@@ -25,7 +25,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Eliminar Médico</title>
+    <title>HospiHub - Eliminar Médico</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Metadatos del autor y diseñador del sitio -->

@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registro de Departamento</title>
+    <title>HospiHub - Insertar Departamento</title>  
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Metadatos del autor y diseñador del sitio -->
