@@ -36,6 +36,14 @@
         $calle = $_POST["calle"];
         $email = $_POST["email"];
         $pin = $_POST["pin"];
+        echo $nombre;
+        echo $apellidos;
+        echo $telefono;
+        echo $fecha_nacimiento;
+        echo $ciudad;
+        echo $calle;
+        echo $email;
+        echo $pin;
 
         // Preparar y ejecutar la consulta SQL
         $sql = "BEGIN Insertar_Paciente(:nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
