@@ -46,7 +46,7 @@
         // Verificar si se encontraron resultados
         if ($row = oci_fetch_assoc($stid)) {
             // Redirigir al paciente a la página de ver citas
-            header("Location: ver-citas.php?id_paciente=" . $row['ID_PACIENTE']);
+            header("Location: elegir-citas.php?id_paciente=" . $row['ID_PACIENTE']);
             exit();
         } else {
             // Mostrar un mensaje de error si las credenciales son incorrectas
