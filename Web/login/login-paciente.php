@@ -21,23 +21,37 @@
 <body>
 
 <?php
-    // Conexión a la base de datos Oracle
+    // Incluir el archivo de conexión a la base de datos Oracle
     include('../conexion.php');
-    $conexion = conexion();
-
+    
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
         $email = $_POST["email"];
         $pin = $_POST["pin"];
 
-        // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Paciente(:nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
+        // Consulta SQL para verificar las credenciales del paciente
+        $sql = "SELECT Id_paciente FROM Tabla_Paciente WHERE Email = :email AND PIN = :pin";
+
+        // Preparar la consulta
         $stid = oci_parse($conexion, $sql);
+
+        // Bind de los parámetros
         oci_bind_by_name($stid, ":email", $email);
         oci_bind_by_name($stid, ":pin", $pin);
+
+        // Ejecutar la consulta
         oci_execute($stid);
-        oci_error();
+
+        // Verificar si se encontraron resultados
+        if ($row = oci_fetch_assoc($stid)) {
+            // Redirigir al paciente a la página de ver citas
+            header("Location: ver-citas.php?id_paciente=" . $row['ID_PACIENTE']);
+            exit();
+        } else {
+            // Mostrar un mensaje de error si las credenciales son incorrectas
+            echo "<p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
+        }
     }
 ?>
     <header>   
@@ -52,7 +66,6 @@
         </h1>
     
         <form action="#" method="post" id="formulario">
-
             <label for="email">Email</label><br>
             <input type="text" id="email" name="email" required>
     
