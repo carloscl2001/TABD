@@ -24,29 +24,19 @@
     // Incluir el archivo de conexión a la base de datos Oracle
     include('../conexion.php');
     
+    // Incluir la definición de la función Comprobar_Paciente
+    include('../Comprobar_Paciente.sql');
+    
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
         $email = $_POST["email"];
         $pin = $_POST["pin"];
 
-        // Consulta SQL para verificar las credenciales del paciente
-        $sql = "SELECT Id_paciente FROM Tabla_Paciente WHERE Email = :email AND PIN = :pin";
-
-        // Preparar la consulta
-        $stid = oci_parse($conexion, $sql);
-
-        // Bind de los parámetros
-        oci_bind_by_name($stid, ":email", $email);
-        oci_bind_by_name($stid, ":pin", $pin);
-
-        // Ejecutar la consulta
-        oci_execute($stid);
-
-        // Verificar si se encontraron resultados
-        if ($row = oci_fetch_assoc($stid)) {
+        // Llamar a la función Comprobar_Paciente para verificar las credenciales del paciente
+        if (Comprobar_Paciente($email, $pin)) {
             // Redirigir al paciente a la página de ver citas
-            header("Location: elegir-citas.php?id_paciente=" . $row['ID_PACIENTE']);
+            header("Location: elegir-citas.php?email=" . $email);
             exit();
         } else {
             // Mostrar un mensaje de error si las credenciales son incorrectas
@@ -54,6 +44,7 @@
         }
     }
 ?>
+
     <header>   
         <nav>
             <div id="logo">HospiHub</div>
