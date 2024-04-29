@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HospiHub - Login de médico/title>
+    <title>HospiHub - Login de medico</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Metadatos del autor y diseñador del sitio -->
@@ -15,48 +15,77 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
     <link rel="stylesheet" href="../css/register.css">
-    <!-- Enlace al archivo JavaScript hola jefe -->
+    <!-- Enlace al archivo JavaScript -->
     
 </head>
 <body>
 
 <?php
-    // Conexión a la base de datos Oracle
+    // Incluir el archivo de conexión a la base de datos Oracle
     include('../conexion.php');
     $conexion = conexion();
-
+    
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
-        
         $email = $_POST["email"];
         $pin = $_POST["pin"];
+        $resultado = null; // Declarar la variable $resultado
+        $id_medico = 000;
 
-        // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Medico(:departamento, :nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
+        // Consulta SQL para verificar las credenciales del medico
+        $sql = "BEGIN :resultado := Comprobar_Medico(:email, :pin); END;";
+
+        // Preparar la consulta
         $stid = oci_parse($conexion, $sql);
-       
+
+        // Bind de los parámetros
         oci_bind_by_name($stid, ":email", $email);
         oci_bind_by_name($stid, ":pin", $pin);
-        oci_execute($stid);
-        oci_error();
-    }
-?>
+        oci_bind_by_name($stid, ":resultado", $resultado, 1, SQLT_BOL);
 
-    <header>   
+        // Ejecutar la consulta
+        oci_execute($stid);
+
+            
+        if($resultado){ // Comprobar que $resultado es igual a 'TRUE'
+           
+            // Consulta SQL para verificar las credenciales del medico
+            $sql = "BEGIN :id_medico := Obtener_Id_Medico(:email); END;";
+
+            // Preparar la consulta
+            $stid = oci_parse($conexion, $sql);
+
+            // Bind de los parámetros
+            oci_bind_by_name($stid, ":email", $email);
+            oci_bind_by_name($stid, ":id_medico", $id_medico);
+
+            // Ejecutar la consulta
+            oci_execute($stid);
+
+            session_start();
+            $_SESSION['id'] = $id_medico;
+            header("location: ../menu-medico.html");
+
+        } else {
+                // Mostrar un mensaje de error si las credenciales son incorrectas
+                echo "<br><br><br><br><p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
+        }
+    }
+?>  
+     <header>   
         <nav>
             <div id="logo">HospiHub</div>
         </nav>
     </header>
 
     <div id="contenedor">
-        <h1>Iniciar sesión como médico<span class="material-symbols-outlined">
+        <h1>Iniciar sesión como medico<span class="material-symbols-outlined">
             stethoscope
         </span>
         </h1>
     
         <form action="#" method="post" id="formulario">
-            
             <label for="email">Email</label><br>
             <input type="text" id="email" name="email" required>
     
@@ -66,7 +95,7 @@
             <input type="number" id="pin" name="pin" required>
            
             <br><br>
-
+            
             <button type="submit">Entrar</button>
     
         </form>
