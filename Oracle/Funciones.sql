@@ -1,41 +1,28 @@
-CREATE OR REPLACE FUNCTION Comprobar_Paciente(email IN VARCHAR2, pin IN NUMBER) RETURN BOOLEAN IS
-    v_pin_correcto NUMBER;
+CREATE OR REPLACE FUNCTION Verificar_Credenciales_Paciente(email_in VARCHAR2, pin_in VARCHAR2) RETURN NUMBER AS
+    paciente_id NUMBER;
 BEGIN
-  SELECT PIN INTO v_pin_correcto
-  FROM Tabla_Paciente
-  WHERE Email = email;
-
-  
-  IF pin = v_pin_correcto THEN
-    RETURN TRUE;
-  ELSE
-    RETURN FALSE;
-  END IF;
-  
-  EXCEPTION
+    SELECT Id_paciente INTO paciente_id
+    FROM Tabla_Paciente
+    WHERE Email = email_in AND PIN = pin_in;
+    
+    RETURN paciente_id;
+EXCEPTION
     WHEN NO_DATA_FOUND THEN
-        RETURN FALSE;
+        RETURN NULL;
 END;
 /
 
-
-CREATE OR REPLACE FUNCTION Comprobar_Medico(email IN VARCHAR2, pin IN NUMBER) RETURN BOOLEAN IS
-    v_pin_correcto NUMBER;
+CREATE OR REPLACE FUNCTION Verificar_Credenciales_Medico(email_in VARCHAR2, pin_in VARCHAR2) RETURN NUMBER AS
+    medico_id NUMBER;
 BEGIN
-  SELECT PIN INTO v_pin_correcto
-  FROM Tabla_Medico
-  WHERE Email = email;
-
-  
-  IF pin = v_pin_correcto THEN
-    RETURN TRUE;
-  ELSE
-    RETURN FALSE;
-  END IF;
-  
-  EXCEPTION
+    SELECT Id_medico INTO medico_id
+    FROM Tabla_Medico
+    WHERE Email = email_in AND PIN = pin_in;
+    
+    RETURN medico_id;
+EXCEPTION
     WHEN NO_DATA_FOUND THEN
-        RETURN FALSE;
+        RETURN NULL;
 END;
 /
 
