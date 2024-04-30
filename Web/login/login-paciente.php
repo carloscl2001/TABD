@@ -24,17 +24,14 @@
     // Incluir el archivo de conexión a la base de datos Oracle
     include('../conexion.php');
     $conexion = conexion();
-    
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
         $email = $_POST["email"];
         $pin = $_POST["pin"];
-        $resultado = null; // Declarar la variable $resultado
-        $id_paciente = 000;
 
         // Consulta SQL para verificar las credenciales del paciente
-        $sql = "BEGIN :resultado := Comprobar_Paciente(:email, :pin); END;";
+        $sql = "SELECT Id_paciente FROM Tabla_Paciente WHERE Email = :email AND PIN = :pin";
 
         // Preparar la consulta
         $stid = oci_parse($conexion, $sql);
@@ -42,38 +39,22 @@
         // Bind de los parámetros
         oci_bind_by_name($stid, ":email", $email);
         oci_bind_by_name($stid, ":pin", $pin);
-        oci_bind_by_name($stid, ":resultado", $resultado, 1, SQLT_BOL);
 
         // Ejecutar la consulta
         oci_execute($stid);
 
-            
-        if($resultado){ // Comprobar que $resultado es igual a 'TRUE'
-           
-            // Consulta SQL para verificar las credenciales del paciente
-            $sql = "BEGIN :id_paciente := Obtener_Id_Paciente(:email); END;";
-
-            // Preparar la consulta
-            $stid = oci_parse($conexion, $sql);
-
-            // Bind de los parámetros
-            oci_bind_by_name($stid, ":email", $email);
-            oci_bind_by_name($stid, ":id_paciente", $id_paciente);
-
-            // Ejecutar la consulta
-            oci_execute($stid);
-
-            session_start();
-            $_SESSION['id'] = $id_paciente;
-            header("location: ../menu-paciente.html");
-
+        // Verificar si se encontraron resultados
+        if ($row = oci_fetch_assoc($stid)) {
+            // Redirigir al paciente a la página de ver citas
+            header("Location: ../menu-paciente.html?id_paciente=" . $row['ID_PACIENTE']);
+            exit();
         } else {
-                // Mostrar un mensaje de error si las credenciales son incorrectas
-                echo "<br><br><br><br><p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
+            // Mostrar un mensaje de error si las credenciales son incorrectas
+            echo "<p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
         }
     }
-?>  
-     <header>   
+?>
+    <header>   
         <nav>
             <div id="logo">HospiHub</div>
         </nav>
