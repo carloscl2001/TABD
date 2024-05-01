@@ -59,9 +59,7 @@ CREATE OR REPLACE TYPE Tipo_Medicamento AS OBJECT (
     Id_medicamento NUMBER,
     Id_diagnostico NUMBER,
     Nombre VARCHAR(50),
-    Descripcion VARCHAR2(100),
-    Stock NUMBER,
-    Precio FLOAT
+    Frecuencia VARCHAR2(100),
 );
 /
 

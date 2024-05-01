@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cita_id']) && isset($_
     $conexion = conexion();
 
     // Preparar la consulta SQL para actualizar la cita con el ID del paciente y cambiar su estado
-    $sql = "UPDATE Tabla_Cita SET Id_paciente = :id_paciente, Estado = 'Paciente Asignado' WHERE Id_cita = :id_cita";
+    $sql = "BEGIN Asignar_Cita(:id_paciente, :id_cita); END;";
     $stmt = oci_parse($conexion, $sql);
 
     // Bind de los parámetros

@@ -38,8 +38,7 @@ CREATE TABLE Tabla_Cita OF Tipo_Cita (
 -- Tabla Medicamento
 CREATE TABLE Tabla_Medicamento OF Tipo_Medicamento (
     CONSTRAINT pk_medicamento PRIMARY KEY (Id_medicamento),
-    CONSTRAINT fk_medicamento_diagnostico FOREIGN KEY (Id_diagnostico) REFERENCES Tabla_Diagnostico(Id_diagnostico),
-    CONSTRAINT ak_medicamento UNIQUE(Nombre)
+    CONSTRAINT fk_medicamento_diagnostico FOREIGN KEY (Id_diagnostico) REFERENCES Tabla_Diagnostico(Id_diagnostico)
 );
 /
 

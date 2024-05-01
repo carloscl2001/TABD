@@ -150,14 +150,22 @@ END;
    --INSERTAR DIAGNOSTICOS--    
 -----------------------------
 CREATE OR REPLACE PROCEDURE Insertar_Diagnostico(
+    cita_id IN NUMBER,
     descripcion IN VARCHAR2,
     recomendacion IN VARCHAR2
 )
 IS
+    v_diagnostico_id NUMBER;
 BEGIN
     -- Insertar datos en la tabla Diagnostico
-    INSERT INTO Tabla_Diagnostico(Descripcion, Recomendacion)
-    VALUES (descripcion, recomendacion);
+    INSERT INTO Tabla_Diagnostico(Cita_Id, Descripcion, Recomendacion)
+    VALUES (cita_id, descripcion, recomendacion)
+    RETURNING Id_Diagnostico INTO v_diagnostico_id;
+
+    -- Actualizar la cita con el ID del diagnóstico
+    UPDATE Tabla_Cita SET Id_Diagnostico = v_diagnostico_id, Estado = 'Diagnóstico Completo'
+    WHERE Id_Cita = cita_id;
+
     COMMIT;
     DBMS_OUTPUT.PUT_LINE('Diagnóstico insertado correctamente');
 EXCEPTION
@@ -166,6 +174,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error al insertar el diagnóstico: ' || SQLERRM);
 END;
 /
+
 
 
 
@@ -347,5 +356,29 @@ EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('Error al crear las citas: ' || SQLERRM);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE Asignar_Cita(
+    id_paciente_param IN NUMBER,
+    id_cita_param IN NUMBER
+)
+IS
+BEGIN
+    -- Actualizar el ID del paciente y el estado de la cita
+    UPDATE Tabla_Cita
+    SET Id_paciente = id_paciente_param,
+        Estado = 'Paciente Asignado'
+    WHERE Id_cita = id_cita_param;
+    
+    -- Confirmar que se ha actualizado la cita
+    IF SQL%ROWCOUNT = 1 THEN
+        DBMS_OUTPUT.PUT_LINE('La cita ha sido asignada correctamente.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Error al asignar la cita.');
+    END IF;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
