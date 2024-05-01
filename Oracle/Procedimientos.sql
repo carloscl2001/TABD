@@ -73,14 +73,14 @@ BEGIN
     VALUES (v_id_departamento, nombre, apellidos, telefono, fecha_nacimiento, v_direccion, email, pin);
 
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Médico insertado correctamente');
+    DBMS_OUTPUT.PUT_LINE('Mï¿½dico insertado correctamente');
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
         ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('El departamento especificado no existe para el hospital dado');
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al insertar el médico: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el mï¿½dico: ' || SQLERRM);
 END;
 /
 
@@ -295,58 +295,57 @@ END;
   --CREAR CITAS --    
 ---------------------------
 --Procedimiento para que el 
-create or replace PROCEDURE Crear_Citas AS
-  v_fecha DATE;
-  v_hora TIMESTAMP(0);
-  v_estado VARCHAR2(50) := 'Paciente sin asignar';
-  v_citas_existen NUMBER;
-  -- Declaración de cursores
-  CURSOR hospital_cursor IS
-    SELECT * FROM Tabla_Hospital;
-  CURSOR departamento_cursor (p_id_hospital NUMBER) IS
-    SELECT * FROM Tabla_Departamento WHERE Id_hospital = p_id_hospital;
-  CURSOR medico_cursor (p_id_departamento NUMBER) IS
-    SELECT * FROM Tabla_Medico WHERE Id_departamento = p_id_departamento;
+CREATE OR REPLACE PROCEDURE Crear_Citas AS
+    v_fecha DATE;
+    v_hora TIMESTAMP(0);
+    v_estado VARCHAR2(50) := 'Paciente sin asignar';
+    v_citas_existen NUMBER;
 BEGIN
-  -- Obtener la fecha actual
-  SELECT TRUNC(SYSDATE) INTO v_fecha FROM dual;
+    -- Obtener la fecha actual
+    SELECT TRUNC(SYSDATE) INTO v_fecha FROM dual;
 
-  -- Verificar si ya existen citas para la fecha actual
-  SELECT COUNT(*) INTO v_citas_existen FROM Tabla_Cita WHERE Fecha = v_fecha;
-  IF v_citas_existen > 0 THEN
-    RAISE_APPLICATION_ERROR(-20001, 'Ya existen citas para la fecha actual.');
-  END IF;
+    -- Verificar si ya existen citas para la fecha actual
+    SELECT COUNT(*) INTO v_citas_existen FROM Tabla_Cita WHERE Fecha = v_fecha;
+    IF v_citas_existen > 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Ya existen citas para la fecha actual.');
+    END IF;
 
-  -- Loop a través de todos los hospitales
-  FOR hospital_rec IN hospital_cursor LOOP
+    -- Bucle a travÃ©s de todos los hospitales
+    FOR hospital_rec IN (SELECT * FROM Tabla_Hospital) LOOP
 
-    -- Loop a través de todos los departamentos del hospital actual
-    FOR departamento_rec IN departamento_cursor(hospital_rec.Id_hospital) LOOP
+        -- Bucle a travÃ©s de todos los departamentos del hospital actual
+        FOR departamento_rec IN (SELECT * FROM Tabla_Departamento WHERE Id_hospital = hospital_rec.Id_hospital) LOOP
 
-      -- Loop a través de todos los médicos del departamento actual
-      FOR medico_rec IN medico_cursor(departamento_rec.Id_departamento) LOOP
+            -- Bucle a travÃ©s de todos los mÃ©dicos del departamento actual
+            FOR medico_rec IN (SELECT * FROM Tabla_Medico WHERE Id_departamento = departamento_rec.Id_departamento) LOOP
 
-        -- Calcular hora de la cita (de 8 a 14)
-        v_hora := TO_TIMESTAMP(TO_CHAR(v_fecha, 'YYYY-MM-DD') || ' 08:00:00', 'YYYY-MM-DD HH24:MI:SS');
+                -- Calcular la hora de la cita (de 8 a 14)
+                v_hora := TO_TIMESTAMP(TO_CHAR(v_fecha, 'YYYY-MM-DD') || ' 08:00:00', 'YYYY-MM-DD HH24:MI:SS');
 
-        -- Crear la cita
-        INSERT INTO Tabla_Cita (Id_cita, Id_medico, Id_paciente, Id_diagnostico, Fecha, Hora, Estado)
-        VALUES (seq_cita_id.NEXTVAL, medico_rec.Id_medico, NULL, NULL, v_fecha, v_hora, v_estado);
+                -- Crear la cita
+                INSERT INTO Tabla_Cita (Id_cita, Id_medico, Id_paciente, Id_diagnostico, Fecha, Hora, Estado)
+                VALUES (seq_cita_id.NEXTVAL, medico_rec.Id_medico, NULL, NULL, v_fecha, v_hora, v_estado);
 
-        -- Incrementar hora en 1 hora (60 minutos)
-        v_hora := v_hora + INTERVAL '60' MINUTE;
+                -- Incrementar la hora en 1 hora (60 minutos)
+                v_hora := v_hora + INTERVAL '60' MINUTE;
 
-        -- Crear más citas hasta las 14:00
-        WHILE EXTRACT(HOUR FROM v_hora) < 14 LOOP
-          INSERT INTO Tabla_Cita (Id_cita, Id_medico, Id_paciente, Id_diagnostico, Fecha, Hora, Estado)
-          VALUES (seq_cita_id.NEXTVAL, medico_rec.Id_medico, NULL, NULL, v_fecha, v_hora, v_estado);
-          v_hora := v_hora + INTERVAL '60' MINUTE;
-        END LOOP;
+                -- Crear mÃ¡s citas hasta las 14:00
+                WHILE EXTRACT(HOUR FROM v_hora) < 14 LOOP
+                    INSERT INTO Tabla_Cita (Id_cita, Id_medico, Id_paciente, Id_diagnostico, Fecha, Hora, Estado)
+                    VALUES (seq_cita_id.NEXTVAL, medico_rec.Id_medico, NULL, NULL, v_fecha, v_hora, v_estado);
+                    v_hora := v_hora + INTERVAL '60' MINUTE;
+                END LOOP;
 
-      END LOOP; -- Fin del loop de médicos
+            END LOOP; -- Fin del bucle de mÃ©dicos
 
-    END LOOP; -- Fin del loop de departamentos
+        END LOOP; -- Fin del bucle de departamentos
 
-  END LOOP; -- Fin del loop de hospitales
+    END LOOP; -- Fin del bucle de hospitales
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Citas creadas correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al crear las citas: ' || SQLERRM);
 END;
 /
