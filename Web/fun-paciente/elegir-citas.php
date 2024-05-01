@@ -92,7 +92,10 @@ echo "ID del paciente: $id_paciente";
             <button type="submit">Buscar Cita</button>
         </form>
     </div>
-
     
+    <br><br><br><br>
+    <a href="../menu-paciente.php">Regresar al menú del paciente <span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a>
 </body>
 </html>

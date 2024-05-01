@@ -119,9 +119,16 @@
         <br>
     </div>
 	
-    <a href="../menu-admin.html">Regresar al menu principal<span class="material-symbols-outlined">
+    
+<a href="../menu-admin.php">Regresar al menú del administrador <span class="material-symbols-outlined">
             arrow_left_alt
             </span></a> <br>
+ <br>
+
+    <a href=".." id="volver">Volver al inicio <span class="material-symbols-outlined">
+            home
+            </span>
+    </a>
 
 </body>
 </html>

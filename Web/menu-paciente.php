@@ -38,7 +38,7 @@ echo "ID del paciente: $id_paciente";
             event_note
         </span></a>
         <a href="index.html">Volver al menú principal <span class="material-symbols-outlined">
-            arrow_left_alt
+            home
         </span></a>
     </div>
     

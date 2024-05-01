@@ -47,5 +47,9 @@
     <a href="fun-medico/completar-citas.php">Finalizar citas pendientes 
         <span class="material-symbols-outlined">check</span>
     </a>
+
+    <a href="index.html">Volver al menú principal <span class="material-symbols-outlined">
+            home
+        </span></a>
 </body>
 </html>

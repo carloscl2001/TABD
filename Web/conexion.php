@@ -4,8 +4,8 @@
 <?php
 function conexion() {
 
-    $usuario = 'robe';
-    $contrasenna = 'password';
+    $usuario = 'usuario';
+    $contrasenna = 'usuario';
     $servidor_baseDeDatos = '//localhost:1521/XEPDB1';
 
     // $usuario = /*INTRODUZCA AQUI SU USUARIO*/;

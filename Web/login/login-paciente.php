@@ -52,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         exit();
     } else {
         // Mostrar un mensaje de error si las credenciales son incorrectas
-        echo "<br><br><br><p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
+        echo "<br><br><br><br><hr style='border-top: 3px solid red; border-bottom: 3px solid red;'><p style='color:red; text-align:center;'>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p><hr style='border-top: 3px solid red; border-bottom: 3px solid red;'>";
     }
 }
 ?>
@@ -84,6 +84,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <br>
         <br>
     </div>
+
+    <a href=".." id="volver">Volver al inicio <span class="material-symbols-outlined">
+            home
+            </span>
+    </a>
+
 	
 </body>
 </html>

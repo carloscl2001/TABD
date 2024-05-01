@@ -109,6 +109,16 @@ session_start();
         ?>
 
     </div>
+
+    <br><br><br>
+    <a href="elegir-citas.php">Volver atrás <span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a>
+
+    <br>
+    <a href="../menu-paciente.php">Regresar al menú del paciente <span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a>
     
 </body>
 </html>

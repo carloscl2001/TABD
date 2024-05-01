@@ -112,8 +112,31 @@
             </span>
         </a>
         
+        <h2>Otras opciones <span class="material-symbols-outlined">
+            settings
+            </span>
+        </h2>
+
+        <a href=".." id="volver">Volver al inicio <span class="material-symbols-outlined">
+            home
+            </span>
+        </a>
+
+        <br><br>
+
+        <?php
+           
+            // Incluir el archivo de conexión a la base de datos Oracle
+            echo "<form action='/admin-citas/actualizar-menu.php' method='post'>";
+
+            echo "<button type='submit'>Crear Citas</button>"; // Botón "Seleccionar"
+        
+        ?>
+        
     
     </div>
     
+   
+
 </body>
 </html>

@@ -1,3 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HospiHub - Login de paciente</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- Metadatos del autor y diseñador del sitio -->
+    <meta name="author" content="Carlos Antonio Cortés Lora, Roberto Rivero Díaz">
+    <meta name="designer" content="Carlos Antonio Cortés Lora, Roberto Rivero Díaz">
+    <!-- Enlaces a las fuentes de Google y hojas de estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Enlaces a los archivos CSS -->
+    <link rel="stylesheet" href="../css/procesar-citas.css">
+    <!-- Enlace al archivo JavaScript -->
+    
+</head>
+<body>
+<header>   
+    <nav>
+        <div id="logo">HospiHub</div>
+    </nav>
+</header>
 <?php
 // Conecta al servicio XE (esto es, una base de datos) en el servidor "localhost"
 include('../conexion.php');
@@ -9,7 +35,7 @@ $medico_id = $_SESSION['medico_id'];
 $email = $_SESSION['email'];
 
 // Mostrar el nombre del médico
-echo "<h2>Medico: $medico_id</h2>";
+echo "<br><br><br><br><h2>$email, estas son tus Citas pendientes de finalizar</h2>";
 
 // Consulta SQL para obtener las citas con estado 'Paciente Asignado' para el médico actual
 $sql = "SELECT 
@@ -72,7 +98,7 @@ function mostrarFormulario(idCita) {
     <label for="descripcion">Descripción:</label><br>
     <input type="text" id="descripcion" name="descripcion"><br>
     <label for="recomendacion">Recomendación:</label><br>
-    <input type="text" id="recomendacion" name="recomendacion"><br>
+    <input type="text" id="recomendacion" name="recomendacion"><br><br>
     <div id="medicamentos"></div>
     <button type="button" onclick="agregarMedicamento()">Añadir Medicamento</button><br><br>
     <input type="hidden" name="cita_id" value="${idCita}">
@@ -103,3 +129,6 @@ function enviarFormulario() {
     formulario.submit();
 }
 </script>
+	
+</body>
+</html>
