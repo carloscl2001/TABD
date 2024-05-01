@@ -40,7 +40,8 @@ END;
    --INSERTAR MEDICOS--    
 ----------------------------
 --Procedimiento para insertar datos en Tabla_Medico-
-CREATE OR REPLACE PROCEDURE Insertar_Medico(
+create or replace PROCEDURE Insertar_Medico(
+    nombre_hospital IN VARCHAR2,
     nombre_departamento IN VARCHAR2,
     nombre IN VARCHAR2,
     apellidos IN VARCHAR2,
@@ -53,31 +54,35 @@ CREATE OR REPLACE PROCEDURE Insertar_Medico(
 )
 IS
     v_direccion Tipo_Direccion := Tipo_Direccion(ciudad, calle);
+    v_id_hospital Tabla_Hospital.Id_Hospital%TYPE;
     v_id_departamento Tabla_Departamento.Id_Departamento%TYPE;
 BEGIN
-    DBMS_OUTPUT.PUT_LINE('eMPIEZA');
-    -- Obtener el ID del departamento dado su nombre
+    -- Obtener el ID del hospital dado su nombre
+    SELECT Id_Hospital INTO v_id_hospital
+    FROM Tabla_Hospital
+    WHERE Nombre = nombre_hospital;
+
+    -- Obtener el ID del departamento dado su nombre y el ID del hospital
     SELECT Id_Departamento INTO v_id_departamento
     FROM Tabla_Departamento
-    WHERE Nombre = nombre_departamento;
-
-    DBMS_OUTPUT.PUT_LINE(v_id_departamento);
+    WHERE Nombre = nombre_departamento
+    AND Id_Hospital = v_id_hospital;
 
     -- Insertar datos en la tabla Medico
     INSERT INTO Tabla_Medico(Id_Departamento, Nombre, Apellidos, Telefono, Fecha_Nacimiento, Direccion, Email, PIN)
     VALUES (v_id_departamento, nombre, apellidos, telefono, fecha_nacimiento, v_direccion, email, pin);
 
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Medico insertado correctamente');
+    DBMS_OUTPUT.PUT_LINE('Médico insertado correctamente');
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('El departamento especificado no existe');
+        DBMS_OUTPUT.PUT_LINE('El departamento especificado no existe para el hospital dado');
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al insertar el mÃƒÂ©dico: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el médico: ' || SQLERRM);
 END;
-/
+
 
 
 -----------------------------
