@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/menu.css">
 </head>
 <body>
     <header>   
@@ -20,22 +20,32 @@
         </nav>
     </header>
 
-    <br><br><br><br>
+    <br><br><br>
 
-    <h2>Menú de Paciente <span class="material-symbols-outlined">
-        personal_injury</span></h1>
+    <?php
+        // Incluir el archivo de conexión a la base de datos Oracle
+        include('conexion.php');
+        $conexion = conexion();
+
+        session_start();
+        $medico_id = $_SESSION['medico_id'];
+        $email = $_SESSION['email'];
+        echo "<h2>Bienvenido $email, su id es $medico_id.</h2>";
+
+    ?>
 
    
 
-    <div class="opcion">
-        <a href="fun-paciente/elegir-citas.php">Solictar una cita <span class="material-symbols-outlined">
-            event_note
-        </span></a>
-        <a href="index.html">Volver al menú principal <span class="material-symbols-outlined">
-            arrow_left_alt
-        </span></a>
-    </div>
-    
+    <h1>Menú de Médico <span class="material-symbols-outlined">
+        stethoscope
+    </span></h1>
 
+    <a href="fun-medico/ver-citas.php">Ver todas sus citas
+        <span class="material-symbols-outlined">event_note</span>
+    </a>
+
+    <a href="fun-medico/completar-citas.php">Finalizar citas pendientes 
+        <span class="material-symbols-outlined">check</span>
+    </a>
 </body>
 </html>

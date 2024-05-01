@@ -22,7 +22,7 @@ header {
 }
 
 nav{
-    background-color: #8ef891;
+    background-color: #52ee57;
     width: 100%;
     height: 5em;
 }
@@ -90,3 +90,18 @@ input{
     width: calc(100% - 2.5em);
 }
 
+a {
+    display: block;
+    padding: 10px;
+    background-color: #8ef891;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+a:hover {
+    background-color: #52ee57;
+}

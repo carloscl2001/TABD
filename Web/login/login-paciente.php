@@ -21,40 +21,41 @@
 <body>
 
 <?php
-    // Incluir el archivo de conexión a la base de datos Oracle
-    include('../conexion.php');
-    $conexion = conexion();
-    // Comprobar si se envió el formulario
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        // Recuperar datos del formulario
-        $email = $_POST["email"];
-        $pin = $_POST["pin"];
+// Incluir el archivo de conexión a la base de datos Oracle
+include('../conexion.php');
+$conexion = conexion();
+session_start();
 
-        // Consulta SQL para verificar las credenciales del paciente
-        $sql = "SELECT Id_paciente FROM Tabla_Paciente WHERE Email = :email AND PIN = :pin";
+// Comprobar si se envió el formulario
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // Recuperar datos del formulario
+    $email = $_POST["email"];
+    $pin = $_POST["pin"];
+    $_SESSION['id_paciente'] = $paciente_id;
+    // Consultar la función en la base de datos
+    $sql = "BEGIN :resultado := Verificar_Credenciales_Paciente(:email, :pin); END;";
+    $stid = oci_parse($conexion, $sql);
 
-        // Preparar la consulta
-        $stid = oci_parse($conexion, $sql);
+    // Bind de los parámetros
+    oci_bind_by_name($stid, ":resultado", $paciente_id, 10);
+    oci_bind_by_name($stid, ":email", $email);
+    oci_bind_by_name($stid, ":pin", $pin);
 
-        // Bind de los parámetros
-        oci_bind_by_name($stid, ":email", $email);
-        oci_bind_by_name($stid, ":pin", $pin);
+    // Ejecutar la consulta
+    oci_execute($stid);
 
-        // Ejecutar la consulta
-        oci_execute($stid);
-
-        // Verificar si se encontraron resultados
-        if ($row = oci_fetch_assoc($stid)) {
-            // Redirigir al paciente a la página de ver citas
-            header("Location: ../menu-paciente.html?id_paciente=" . $row['ID_PACIENTE']);
-            exit();
-        } else {
-            // Mostrar un mensaje de error si las credenciales son incorrectas
-            echo "<p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
-        }
+    // Verificar el resultado
+    if ($paciente_id) {
+        // Redirigir al paciente a la página de ver citas
+        header("Location: ../menu-paciente.html?id_paciente=" . $paciente_id);
+        exit();
+    } else {
+        // Mostrar un mensaje de error si las credenciales son incorrectas
+        echo "<br><br><br><p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
     }
+}
 ?>
-    <header>   
+     <header>   
         <nav>
             <div id="logo">HospiHub</div>
         </nav>

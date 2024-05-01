@@ -119,5 +119,9 @@
         <br>
     </div>
 	
+    <a href="../menu-admin.html">Regresar al menu principal<span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a> <br>
+
 </body>
 </html>

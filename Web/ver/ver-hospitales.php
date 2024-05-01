@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HospiHub - Lista de hospitales</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../css/ver.css" type="text/css">
 </head>
 <body>
@@ -14,6 +15,8 @@
             <div id="logo">HospiHub</div>
         </nav>
     </header>
+
+    <br><br><br><br>
 
     <h1>Lista de Hospitales del Sistema</h1>
 
@@ -53,7 +56,9 @@
         echo "</table>\n";
     ?>
 
-    <a href="menu-admin.html">Regresar al menu principal</a> <br>
+<a href="../menu-admin.html">Regresar al menu principal<span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a> <br>
 
 </body>
 </html>

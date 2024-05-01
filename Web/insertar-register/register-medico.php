@@ -36,10 +36,11 @@
         $calle = $_POST["calle"];
         $email = $_POST["email"];
         $pin = $_POST["pin"];
+        $hospital = $_POST["hospital"];
         $departamento = $_POST["departamento"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Medico(:departamento, :nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
+        $sql = "BEGIN Insertar_Medico(:hospital,:departamento, :nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":nombre", $nombre);
         oci_bind_by_name($stid, ":apellidos", $apellidos);
@@ -50,6 +51,7 @@
         oci_bind_by_name($stid, ":email", $email);
         oci_bind_by_name($stid, ":pin", $pin);
         oci_bind_by_name($stid, ":departamento", $departamento);
+        oci_bind_by_name($stid, ":hospital", $hospital);
         oci_execute($stid);
         oci_error();
     }
@@ -107,6 +109,11 @@
             <input type="number" id="pin" name="pin" required>
            
             <br><br>
+
+            <label for="hospital">Hospital</label><br>
+            <input type="text" id="hospital" name="hospital" required> 
+
+            <br><br>
             
             <label for="departamento">Departamento</label><br>
             <input type="text" id="departamento" name="departamento" required> 
@@ -120,5 +127,9 @@
         <br>
     </div>
 	
+    <a href="../menu-admin.html">Regresar al menu principal<span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a> <br>
+
 </body>
 </html>

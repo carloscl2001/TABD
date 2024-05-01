@@ -13,24 +13,107 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/menu.css">
     <title>HospiHub - Menú del adminstrador</title>
 </head>
 <body>
-    <h1>Acciones</h1>
+    <header>   
+        <nav>
+            <div id="logo">HospiHub</div>
+        </nav>
+    </header>
 
+    <br><br>
 
-    <button onclick="window.location.href='insertar-register/register-paciente.php'">Registrar Paciente</button>
-    <button onclick="window.location.href='insertar-register/register-medico.php'">Registrar Médico</button>
-    <button onclick="window.location.href='insertar-register/insertar-hospital.php'">Registrar Hospital</button>
-    <button onclick="window.location.href='insertar-register/insertar-departamento.php'">Registrar Departamento</button>
-    <button onclick="window.location.href='ver/ver-pacientes.php'">Ver Pacientes</button>
-    <button onclick="window.location.href='ver/ver-medicos.php'">Ver Médicos</button>
-    <button onclick="window.location.href='ver/ver-hospitales.php'">Ver Hospitales</button>
-    <button onclick="window.location.href='ver/ver-departamentos.php'">Ver Departamentos</button>
-    <button onclick="window.location.href='eliminar/eliminar-paciente.php'">Eliminar paciente</button>
-    <button onclick="window.location.href='eliminar/eliminar-medico.php'">Eliminar medico</button>
-    <button onclick="window.location.href='eliminar/eliminar-departamento.php'">Eliminar departamento</button>
-    <button onclick="window.location.href='eliminar/eliminar-hospital.php'">Eliminar hospital</button>
+    <h1>Menú del Administrador <span class="material-symbols-outlined">
+        admin_panel_settings
+    </span></h1>
+
+    <div class="opcion">
+        <h2>Dar de Alta <span class="material-symbols-outlined">
+            done
+            </span>
+        </h2>
+        <a href="insertar-register/register-paciente.php">Registrar a un paciente
+            <span class="material-symbols-outlined">
+                personal_injury</span>
+        </a>
+    
+        <a href="insertar-register/register-medico.php">Registrar a un médico
+            <span class="material-symbols-outlined">
+                stethoscope
+            </span>
+        </a>
+    
+        <a href="insertar-register/insertar-departamento.php">Registrar un departamento
+            <span class="material-symbols-outlined">
+                business
+            </span>
+        </a>
+
+        <a href="insertar-register/insertar-hospital.php">Registrar un hospital
+            <span class="material-symbols-outlined">
+                local_hospital
+            </span>
+        </a>
+    
+        <h2>Ver <span class="material-symbols-outlined">
+            info
+            </span></h2>
+        <a href="ver/ver-pacientes.php">Ver pacientes
+            <span class="material-symbols-outlined">
+                personal_injury
+            </span>
+        </a>
+    
+        <a href="ver/ver-medicos.php">Ver médicos
+            <span class="material-symbols-outlined">
+                stethoscope
+            </span>
+        </a>
+        
+        <a href="ver/ver-departamentos.php">Ver departamentos
+            <span class="material-symbols-outlined">
+                business
+            </span>
+        </a>
+        
+        <a href="ver/ver-hospitales.php">Ver hospitales
+            <span class="material-symbols-outlined">
+                local_hospital
+            </span>
+        </a>
+    
+    
+        <h2>Eliminar <span class="material-symbols-outlined">
+            close
+            </span></h2>
+        <a href="eliminar/eliminar-paciente.php">Eliminar paciente
+            <span class="material-symbols-outlined">
+                personal_injury
+            </span>
+        </a>
+    
+        <a href="eliminar/eliminar-medico.php">Eliminar médico
+            <span class="material-symbols-outlined">
+                stethoscope
+            </span>
+        </a>
+    
+        <a href="eliminar/eliminar-departamento.php">Eliminar departamento
+            <span class="material-symbols-outlined">
+                business
+            </span>
+        </a>
+
+        <a href="eliminar/eliminar-hospital.php">Eliminar hospital
+            <span class="material-symbols-outlined">
+                local_hospital
+            </span>
+        </a>
+        
+    
+    </div>
+    
 </body>
 </html>

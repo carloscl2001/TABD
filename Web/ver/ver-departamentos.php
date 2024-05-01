@@ -5,16 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HospiHub - Lista de departamentos</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../css/ver.css" type="text/css">
 </head>
 <body>
-    <header>   
+    <header>
         <nav>
             <div id="logo">HospiHub</div>
-        </nav>
+        </nav> 
     </header>
-    
+           
+
+    <br><br><br><br>
+
     <h1>Lista de Departamentos del Sistema</h1>
+
 
     <?php
 
@@ -39,7 +44,7 @@
             echo "<table class='table table-striped'>\n";
             echo "<thead>";
             echo "<tr>";
-            echo "<th>Id Departamento</th>";
+            echo "<th>Id del Departamento</th>";
             echo "<th>Nombre Departamento</th>";
             echo "<th>Ubicacion Departamento</th>";
             echo "<th>Id Hospital</th>";
@@ -58,7 +63,9 @@
         echo "</table>\n";
     ?>
 
-    <a href="menu-admin.html">Regresar al menu principal</a> <br>
+<a href="../menu-admin.html">Regresar al menu principal<span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a> <br>
 
 </body>
 </html>

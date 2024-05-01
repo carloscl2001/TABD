@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HospiHub - Lista de pacientes</title>
     <link rel="stylesheet" href="../css/ver.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <header>   
@@ -13,6 +14,8 @@
             <div id="logo">HospiHub</div>
         </nav>
     </header>
+
+    <br><br><br><br>
     
     <h1>Lista de Pacientes del Sistema</h1>
 
@@ -42,7 +45,7 @@
             echo "<table class='table table-striped'>\n";
             echo "<thead>";
             echo "<tr>";
-            echo "<th>Id Paciente</th>";
+            echo "<th>Id del Paciente</th>";
             echo "<th>Nombre</th>";
             echo "<th>Apellidos</th>";
             echo "<th>Telefono</th>";
@@ -63,7 +66,9 @@
         echo "</table>\n";
     ?>
 
-    <a href="menu-admin.html">Regresar al menu principal</a> <br>
+<a href="../menu-admin.html">Regresar al menu principal<span class="material-symbols-outlined">
+            arrow_left_alt
+            </span></a> <br>
 
 </body>
 </html>

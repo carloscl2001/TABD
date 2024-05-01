@@ -24,55 +24,41 @@
     // Incluir el archivo de conexión a la base de datos Oracle
     include('../conexion.php');
     $conexion = conexion();
-    
+
+
+
     // Comprobar si se envió el formulario
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Recuperar datos del formulario
         $email = $_POST["email"];
         $pin = $_POST["pin"];
-        $resultado = null; // Declarar la variable $resultado
-        $id_medico = 000;
 
-        // Consulta SQL para verificar las credenciales del medico
-        $sql = "BEGIN :resultado := Comprobar_Medico(:email, :pin); END;";
-
-        // Preparar la consulta
+        // Consultar la función en la base de datos
+        $sql = "BEGIN :resultado := Verificar_Credenciales_Medico(:email, :pin); END;";
         $stid = oci_parse($conexion, $sql);
 
         // Bind de los parámetros
+        oci_bind_by_name($stid, ":resultado", $medico_id, 10);
         oci_bind_by_name($stid, ":email", $email);
         oci_bind_by_name($stid, ":pin", $pin);
-        oci_bind_by_name($stid, ":resultado", $resultado, 1, SQLT_BOL);
 
         // Ejecutar la consulta
         oci_execute($stid);
 
-            
-        if($resultado){ // Comprobar que $resultado es igual a 'TRUE'
-           
-            // Consulta SQL para verificar las credenciales del medico
-            $sql = "BEGIN :id_medico := Obtener_Id_Medico(:email); END;";
-
-            // Preparar la consulta
-            $stid = oci_parse($conexion, $sql);
-
-            // Bind de los parámetros
-            oci_bind_by_name($stid, ":email", $email);
-            oci_bind_by_name($stid, ":id_medico", $id_medico);
-
-            // Ejecutar la consulta
-            oci_execute($stid);
-
+        // Verificar el resultado
+        if ($medico_id) {
+            // Redirigir al paciente a la página de ver citas
             session_start();
-            $_SESSION['id'] = $id_medico;
-            header("location: ../menu-medico.html");
-
+            $_SESSION['medico_id'] = $medico_id;
+            $_SESSION['email'] = $email;
+            header("Location: ../menu-medico.php" );
+            exit();
         } else {
-                // Mostrar un mensaje de error si las credenciales son incorrectas
-                echo "<br><br><br><br><p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
+            // Mostrar un mensaje de error si las credenciales son incorrectas
+            echo "<br><br><br><p>Las credenciales de inicio de sesión son incorrectas. Por favor, inténtalo de nuevo.</p>";
         }
     }
-?>  
+?>
      <header>   
         <nav>
             <div id="logo">HospiHub</div>
