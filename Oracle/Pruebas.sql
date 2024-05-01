@@ -46,3 +46,29 @@ BEGIN
     Eliminar_Medico('carlosantonio.corteslora@alum.uca.es');
 END;
 /
+
+
+BEGIN
+    DELETE FROM Tabla_Cita;
+END;
+/
+
+BEGIN
+    Crear_Citas();
+END;
+/
+
+SELECT c.Id_cita, c.Fecha, c.Hora, m.Nombre AS Nombre_medico
+            FROM Tabla_Cita c
+            JOIN Tabla_Medico m ON c.Id_medico = m.Id_medico
+            JOIN Tabla_Departamento d ON m.Id_departamento = d.Id_departamento
+            JOIN Tabla_Hospital h ON d.Id_hospital = h.Id_hospital
+            WHERE h.Nombre = 'H1'
+            AND d.Nombre = 'Cardiologia'
+            AND c.Estado = 'Paciente sin asignar';
+            
+            
+SELECT c.Id_cita FROM Tabla_Cita c;
+
+SELECT TO_CHAR(c.Hora, 'HH24:MI:SS') AS fecha_formateada
+FROM Tabla_Cita c;
