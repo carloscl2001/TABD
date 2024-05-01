@@ -78,10 +78,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cita_id']) && isset($_
 // Función para obtener el ID del diagnóstico insertado
 function obtenerIdDiagnostico($conexion)
 {
-    $sql = "SELECT MAX(Id_diagnostico) AS Id_diagnostico FROM Tabla_Diagnostico";
+    // Preparar la consulta SQL para llamar a la función PL/SQL
+    $sql = "BEGIN :max_id := Obtener_Max_Id_Diagnostico(); END;";
     $stmt = oci_parse($conexion, $sql);
+    
+    // Bind de los parámetros
+    oci_bind_by_name($stmt, ":max_id", $maxId, 100);
+    
+    // Ejecutar la consulta
     oci_execute($stmt);
-    $row = oci_fetch_assoc($stmt);
-    return $row['ID_DIAGNOSTICO'];
+    
+    // Verificar si se obtuvo un valor válido
+    if ($maxId !== null) {
+        return $maxId;
+    } else {
+        // Manejar el caso en el que la función devuelve NULL
+        // Aquí puedes lanzar una excepción o devolver un valor predeterminado
+        return -1; // Por ejemplo, devolver -1 si no se puede obtener el valor
+    }
 }
+
 ?>

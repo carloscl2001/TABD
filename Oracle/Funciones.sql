@@ -33,3 +33,22 @@ EXCEPTION
         RETURN NULL;
 END;
 /
+
+-------------------------------
+  --OBTENER DIAGNOSTICO--    
+-------------------------------
+CREATE OR REPLACE FUNCTION Obtener_Max_Id_Diagnostico
+RETURN NUMBER
+IS
+    max_id_diagnostico NUMBER;
+BEGIN
+    -- Seleccionar el máximo ID de diagnóstico de la tabla Tabla_Diagnostico
+    SELECT MAX(Id_diagnostico) INTO max_id_diagnostico FROM Tabla_Diagnostico;
+    
+    -- Devolver el máximo ID de diagnóstico
+    RETURN max_id_diagnostico;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN NULL; -- En caso de error, devolver NULL
+END;
+/
