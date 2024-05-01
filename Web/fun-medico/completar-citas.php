@@ -59,25 +59,40 @@ while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
 }
 echo "</table>\n";
 ?>
+
 <!-- Script para mostrar el formulario emergente -->
 <script>
+var numMedicamentos = 1; // Contador de medicamentos
+
 function mostrarFormulario(idCita) {
     // Mostrar el formulario emergente
     var formulario = document.createElement("form");
     formulario.setAttribute("id", "formularioDiagnostico");
     formulario.innerHTML = `
     <label for="descripcion">Descripción:</label><br>
-        <input type="text" id="descripcion" name="descripcion"><br>
-        <label for="recomendacion">Recomendación:</label><br>
-        <input type="text" id="recomendacion" name="recomendacion"><br>
-        <label for="nombre_medicamento">Nombre del Medicamento:</label><br>
-        <input type="text" id="nombre_medicamento" name="nombre_medicamento"><br>
-        <label for="frecuencia">Frecuencia del Medicamento:</label><br>
-        <input type="text" id="frecuencia" name="frecuencia"><br><br>
-        <input type="hidden" name="cita_id" value="${idCita}">
-        <input type="button" value="Insertar Diagnóstico" onclick="enviarFormulario()">
+    <input type="text" id="descripcion" name="descripcion"><br>
+    <label for="recomendacion">Recomendación:</label><br>
+    <input type="text" id="recomendacion" name="recomendacion"><br>
+    <div id="medicamentos"></div>
+    <button type="button" onclick="agregarMedicamento()">Añadir Medicamento</button><br><br>
+    <input type="hidden" name="cita_id" value="${idCita}">
+    <input type="button" value="Insertar Diagnóstico" onclick="enviarFormulario()">
     `;
     document.body.appendChild(formulario);
+}
+
+// Función para agregar un medicamento
+function agregarMedicamento() {
+    var divMedicamentos = document.getElementById("medicamentos");
+    var nuevoMedicamento = document.createElement("div");
+    nuevoMedicamento.innerHTML = `
+    <label for="nombre_medicamento${numMedicamentos}">Nombre del Medicamento:</label><br>
+    <input type="text" id="nombre_medicamento${numMedicamentos}" name="nombre_medicamento[]"><br>
+    <label for="frecuencia${numMedicamentos}">Frecuencia del Medicamento:</label><br>
+    <input type="text" id="frecuencia${numMedicamentos}" name="frecuencia[]"><br><br>
+    `;
+    divMedicamentos.appendChild(nuevoMedicamento);
+    numMedicamentos++;
 }
 
 // Función para enviar el formulario
@@ -88,4 +103,3 @@ function enviarFormulario() {
     formulario.submit();
 }
 </script>
-

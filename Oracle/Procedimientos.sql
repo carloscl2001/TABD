@@ -149,7 +149,7 @@ END;
 -----------------------------
    --INSERTAR DIAGNOSTICOS--    
 -----------------------------
-CREATE OR REPLACE PROCEDURE Insertar_Diagnostico(
+create or replace PROCEDURE Insertar_Diagnostico(
     cita_id IN NUMBER,
     descripcion IN VARCHAR2,
     recomendacion IN VARCHAR2
@@ -158,8 +158,8 @@ IS
     v_diagnostico_id NUMBER;
 BEGIN
     -- Insertar datos en la tabla Diagnostico
-    INSERT INTO Tabla_Diagnostico(Cita_Id, Descripcion, Recomendacion)
-    VALUES (cita_id, descripcion, recomendacion)
+    INSERT INTO Tabla_Diagnostico(Descripcion, Recomendacion)
+    VALUES (descripcion, recomendacion)
     RETURNING Id_Diagnostico INTO v_diagnostico_id;
 
     -- Actualizar la cita con el ID del diagnóstico
@@ -174,8 +174,6 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error al insertar el diagnóstico: ' || SQLERRM);
 END;
 /
-
-
 
 
 

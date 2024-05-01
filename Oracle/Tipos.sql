@@ -59,7 +59,7 @@ CREATE OR REPLACE TYPE Tipo_Medicamento AS OBJECT (
     Id_medicamento NUMBER,
     Id_diagnostico NUMBER,
     Nombre VARCHAR(50),
-    Frecuencia VARCHAR2(100),
+    Frecuencia VARCHAR2(100)
 );
 /
 

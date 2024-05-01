@@ -1,75 +1,86 @@
 <?php
 // Verificar si se recibieron los datos del formulario
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cita_id']) && isset($_POST['descripcion']) && isset($_POST['recomendacion']) && isset($_POST['nombre_medicamento']) && isset($_POST['frecuencia'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cita_id']) && isset($_POST['descripcion']) && isset($_POST['recomendacion'])) {
     // Obtener los datos del formulario
     $cita_id = $_POST['cita_id'];
     $descripcion = $_POST['descripcion'];
     $recomendacion = $_POST['recomendacion'];
-    $nombre_medicamento = $_POST['nombre_medicamento'];
-    $frecuencia = $_POST['frecuencia'];
 
-    // Incluir el archivo de conexión a la base de datos
+    // Conectar a la base de datos
     include('../conexion.php');
     $conexion = conexion();
 
-    // Preparar la consulta SQL para insertar el diagnóstico
-    $sql_diagnostico = "BEGIN Insertar_Diagnostico(:cita_id, :descripcion, :recomendacion); END;";
-    $stmt_diagnostico = oci_parse($conexion, $sql_diagnostico);
+    // Preparar la consulta para insertar el diagnóstico
+    $sqlDiagnostico = "BEGIN Insertar_Diagnostico(:cita_id, :descripcion, :recomendacion); END;";
+    $stmtDiagnostico = oci_parse($conexion, $sqlDiagnostico);
 
-    // Bind de los parámetros para el diagnóstico
-    oci_bind_by_name($stmt_diagnostico, ":cita_id", $cita_id);
-    oci_bind_by_name($stmt_diagnostico, ":descripcion", $descripcion);
-    oci_bind_by_name($stmt_diagnostico, ":recomendacion", $recomendacion);
+    // Bind de los parámetros
+    oci_bind_by_name($stmtDiagnostico, ":cita_id", $cita_id);
+    oci_bind_by_name($stmtDiagnostico, ":descripcion", $descripcion);
+    oci_bind_by_name($stmtDiagnostico, ":recomendacion", $recomendacion);
 
     // Ejecutar la consulta para insertar el diagnóstico
-    $resultado_diagnostico = oci_execute($stmt_diagnostico);
+    $resultadoDiagnostico = oci_execute($stmtDiagnostico);
 
     // Verificar si la inserción del diagnóstico fue exitosa
-    if ($resultado_diagnostico) {
-        echo "El diagnóstico se ha insertado correctamente.";
+    if ($resultadoDiagnostico) {
+        echo "El diagnóstico se ha insertado correctamente.<br>";
 
         // Obtener el ID del diagnóstico insertado
-        $id_diagnostico = obtenerIdDiagnostico($conexion);
+        $idDiagnostico = obtenerIdDiagnostico($conexion);
 
-        // Preparar la consulta SQL para insertar el medicamento asociado al diagnóstico
-        $sql_medicamento = "INSERT INTO Tabla_Medicamento(Id_diagnostico, Nombre, Frecuencia) VALUES (:id_diagnostico, :nombre_medicamento, :frecuencia)";
-        $stmt_medicamento = oci_parse($conexion, $sql_medicamento);
+        // Verificar si se recibieron los datos de los medicamentos
+        if (isset($_POST['nombre_medicamento']) && isset($_POST['frecuencia'])) {
+            // Obtener los datos de los medicamentos
+            $nombresMedicamentos = $_POST['nombre_medicamento'];
+            $frecuencias = $_POST['frecuencia'];
 
-        // Bind de los parámetros para el medicamento
-        oci_bind_by_name($stmt_medicamento, ":id_diagnostico", $id_diagnostico);
-        oci_bind_by_name($stmt_medicamento, ":nombre_medicamento", $nombre_medicamento);
-        oci_bind_by_name($stmt_medicamento, ":frecuencia", $frecuencia);
+            // Preparar la consulta para insertar los medicamentos asociados al diagnóstico
+            $sqlMedicamento = "BEGIN Insertar_Medicamento(:id_diagnostico, :nombre_medicamento, :frecuencia); END;";
+            $stmtMedicamento = oci_parse($conexion, $sqlMedicamento);
 
-        // Ejecutar la consulta para insertar el medicamento
-        $resultado_medicamento = oci_execute($stmt_medicamento);
+            // Iterar sobre los datos de los medicamentos y ejecutar la consulta para cada uno
+            for ($i = 0; $i < count($nombresMedicamentos); $i++) {
+                // Obtener los datos del medicamento actual
+                $nombreMedicamento = $nombresMedicamentos[$i];
+                $frecuencia = $frecuencias[$i];
 
-        // Verificar si la inserción del medicamento fue exitosa
-        if ($resultado_medicamento) {
-            echo "El medicamento se ha asociado correctamente al diagnóstico.";
+                // Bind de los parámetros
+                oci_bind_by_name($stmtMedicamento, ":id_diagnostico", $idDiagnostico);
+                oci_bind_by_name($stmtMedicamento, ":nombre_medicamento", $nombreMedicamento);
+                oci_bind_by_name($stmtMedicamento, ":frecuencia", $frecuencia);
+
+                // Ejecutar la consulta para insertar el medicamento
+                $resultadoMedicamento = oci_execute($stmtMedicamento);
+
+                // Verificar si la inserción del medicamento fue exitosa
+                if ($resultadoMedicamento) {
+                    echo "El medicamento '$nombreMedicamento' se ha asociado al diagnóstico correctamente.<br>";
+                } else {
+                    echo "Error al insertar el medicamento '$nombreMedicamento'.<br>";
+                }
+            }
         } else {
-            echo "Error al insertar el medicamento asociado al diagnóstico.";
+            echo "No se recibieron datos de medicamentos.<br>";
         }
     } else {
-        echo "Error al insertar el diagnóstico.";
+        echo "Error al insertar el diagnóstico.<br>";
     }
 
-    // Liberar recursos
-    oci_free_statement($stmt_diagnostico);
-    oci_free_statement($stmt_medicamento);
+    // Cerrar las conexiones y liberar los recursos
+    oci_free_statement($stmtDiagnostico);
+    oci_free_statement($stmtMedicamento);
     oci_close($conexion);
 } else {
-    // Redireccionar si no se recibieron todos los datos necesarios
-    header("Location: citas.php");
-    exit();
+    echo "No se recibieron todos los datos necesarios.<br>";
 }
 
 // Función para obtener el ID del diagnóstico insertado
-function obtenerIdDiagnostico($conexion)
-{
-    $sql = "SELECT MAX(Id_diagnostico) AS Id_diagnostico FROM Tabla_Diagnostico";
+function obtenerIdDiagnostico($conexion) {
+    $sql = "SELECT SEQ_DIAGNOSTICO.CURRVAL FROM DUAL";
     $stmt = oci_parse($conexion, $sql);
     oci_execute($stmt);
     $row = oci_fetch_assoc($stmt);
-    return $row['ID_DIAGNOSTICO'];
+    return $row['CURRVAL'];
 }
 ?>
