@@ -82,7 +82,7 @@ EXCEPTION
         ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('Error al insertar el médico: ' || SQLERRM);
 END;
-
+/
 
 
 -----------------------------
