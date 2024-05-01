@@ -175,6 +175,27 @@ EXCEPTION
 END;
 /
 
+-----------------------------
+   --INSERTAR MEDICAMENTO--    
+-----------------------------
+CREATE OR REPLACE PROCEDURE Insertar_Medicamento(
+    id_diagnostico IN NUMBER,
+    nombre_medicamento IN VARCHAR2,
+    frecuencia IN VARCHAR2
+)
+IS
+BEGIN
+    -- Insertar el medicamento asociado al diagnóstico
+    INSERT INTO Tabla_Medicamento(Id_diagnostico, Nombre, Frecuencia)
+    VALUES (id_diagnostico, nombre_medicamento, frecuencia);
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Medicamento insertado correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error al insertar el medicamento: ' || SQLERRM);
+END;
+/
 
 
 -------------------------------

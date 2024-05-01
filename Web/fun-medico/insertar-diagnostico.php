@@ -76,11 +76,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cita_id']) && isset($_
 }
 
 // Función para obtener el ID del diagnóstico insertado
-function obtenerIdDiagnostico($conexion) {
-    $sql = "SELECT SEQ_DIAGNOSTICO.CURRVAL FROM DUAL";
+function obtenerIdDiagnostico($conexion)
+{
+    $sql = "SELECT MAX(Id_diagnostico) AS Id_diagnostico FROM Tabla_Diagnostico";
     $stmt = oci_parse($conexion, $sql);
     oci_execute($stmt);
     $row = oci_fetch_assoc($stmt);
-    return $row['CURRVAL'];
+    return $row['ID_DIAGNOSTICO'];
 }
 ?>
