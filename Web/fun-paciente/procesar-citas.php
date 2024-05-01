@@ -1,3 +1,7 @@
+<?php
+// Iniciar la sesión para acceder al id_paciente
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,6 +63,7 @@
                     WHERE 
                         h.Nombre = :hospital 
                         AND d.Nombre = :departamento 
+                        AND c.Estado = 'Paciente sin asignar'
                         AND c.Fecha = TO_DATE(:fecha, 'DD/MM/YYYY')";
 
             // Preparar la consulta
@@ -83,15 +88,23 @@
             echo "<th>Hora de la cita</th>";
             echo "<th>Id del Medico</th>";
             echo "<th>Medico de la Cita</th>";
+            echo "<th>Seleccionar</th>"; // Agregar una nueva columna para el botón "Seleccionar"
             echo "</tr>";
             echo "</thead>";
             while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
                 echo "<tr>\n";
-            foreach ($row as $item) {
-                echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
+                foreach ($row as $item) {
+                    echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
                 }
+                // Agregar el formulario y el botón "Seleccionar" en cada fila de la tabla
+                echo "<td>";
+                echo "<form action='actualizar-seleccion.php' method='post'>";
+                echo "<input type='hidden' name='cita_id' value='" . $row['ID_CITA'] . "'>"; // Pasar el ID de la cita
+                echo "<button type='submit'>Seleccionar</button>"; // Botón "Seleccionar"
+                echo "</form>";
+                echo "</td>";
                 echo "</tr>\n";
-                }
+            }
             echo "</table>\n";
         ?>
 

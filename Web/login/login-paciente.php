@@ -31,7 +31,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Recuperar datos del formulario
     $email = $_POST["email"];
     $pin = $_POST["pin"];
-    $_SESSION['id_paciente'] = $paciente_id;
     // Consultar la función en la base de datos
     $sql = "BEGIN :resultado := Verificar_Credenciales_Paciente(:email, :pin); END;";
     $stid = oci_parse($conexion, $sql);
@@ -46,8 +45,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Verificar el resultado
     if ($paciente_id) {
+        // Guardar el ID del paciente en la sesión
+        $_SESSION['id_paciente'] = $paciente_id;
         // Redirigir al paciente a la página de ver citas
-        header("Location: ../menu-paciente.html?id_paciente=" . $paciente_id);
+        header("Location: ../menu-paciente.php?id_paciente=" . $paciente_id);
         exit();
     } else {
         // Mostrar un mensaje de error si las credenciales son incorrectas

@@ -1,3 +1,9 @@
+<?php
+// Iniciar la sesión para acceder al id_paciente
+session_start();
+$id_paciente = $_GET['id_paciente']; // Obtener el ID del paciente de la URL
+echo "ID del paciente: $id_paciente";
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
