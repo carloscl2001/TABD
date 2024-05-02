@@ -38,12 +38,13 @@
         'SELECT 
             d.Descripcion AS Descripcion_diagnostico,
             d.Recomendacion AS Recomendacion_diagnostico,
+            d.Id_diagnostico,
             m.Nombre AS Nombre_medicamento,
             m.Frecuencia AS Frecuencia_medicamento
         FROM 
             Tabla_Cita c
             JOIN Tabla_Diagnostico d ON c.Id_diagnostico = d.Id_diagnostico
-            JOIN Tabla_Medicamento m ON d.Id_diagnostico = m.Id_diagnostico
+            LEFT JOIN Tabla_Medicamento m ON d.Id_diagnostico = m.Id_diagnostico
         WHERE
             c.Id_Cita = :id_cita
          ');
@@ -57,16 +58,23 @@
     while ($row = oci_fetch_assoc($stid)) {
         echo "<li><strong>Descripción:</strong> " . $row['DESCRIPCION_DIAGNOSTICO'] . "</li>";
         echo "<li><strong>Recomendación:</strong> " . $row['RECOMENDACION_DIAGNOSTICO'] . "</li>";
-    }
-    echo "</ul>";
 
-    // Mostrar medicamentos asociados
-    echo "<h2>Medicamentos:</h2>";
-    echo "<ul>";
-    oci_execute($stid); // Reejecutar la consulta para recorrerla de nuevo
-    while ($row = oci_fetch_assoc($stid)) {
-        echo "<li><strong>Nombre:</strong> " . $row['NOMBRE_MEDICAMENTO'] . "</li>";
-        echo "<li><strong>Frecuencia:</strong> " . $row['FRECUENCIA_MEDICAMENTO'] . "</li>";
+        // Mostrar medicamentos asociados a este diagnóstico
+        echo "<h3>Medicamentos:</h3>";
+        echo "<ul>";
+        
+        // Verificar si hay medicamentos asociados
+        if ($row['NOMBRE_MEDICAMENTO'] !== null) {
+            // Mostrar medicamentos
+            do {
+                echo "<li><strong>Nombre:</strong> " . $row['NOMBRE_MEDICAMENTO'] . "</li>";
+                echo "<li><strong>Frecuencia:</strong> " . $row['FRECUENCIA_MEDICAMENTO'] . "</li>";
+            } while ($med_row = oci_fetch_assoc($stid) && $med_row['ID_DIAGNOSTICO'] === $row['ID_DIAGNOSTICO']); // Mostrar medicamentos mientras pertenezcan al mismo diagnóstico
+        } else {
+            echo "<li>No hay medicamentos asociados a este diagnóstico.</li>";
+        }
+        
+        echo "</ul>";
     }
     echo "</ul>";
 

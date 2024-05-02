@@ -163,7 +163,7 @@ BEGIN
     RETURNING Id_Diagnostico INTO v_diagnostico_id;
 
     -- Actualizar la cita con el ID del diagnóstico
-    UPDATE Tabla_Cita SET Id_Diagnostico = v_diagnostico_id, Estado = 'Diagnóstico Completo'
+    UPDATE Tabla_Cita SET Id_Diagnostico = v_diagnostico_id, Estado = 'Diagnostico Completo'
     WHERE Id_Cita = cita_id;
 
     COMMIT;
