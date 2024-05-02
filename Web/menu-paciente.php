@@ -37,6 +37,9 @@ echo "ID del paciente: $id_paciente";
         <a href="fun-paciente/elegir-citas.php">Solictar una cita <span class="material-symbols-outlined">
             event_note
         </span></a>
+        <a href="fun-paciente/ver-citas-paciente.php">Ver citas <span class="material-symbols-outlined">
+            event_note
+        </span></a>
         <a href="index.html">Volver al menú principal <span class="material-symbols-outlined">
             home
         </span></a>
