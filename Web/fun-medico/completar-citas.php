@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
-    <link rel="stylesheet" href="../css/procesar-citas.css">
+    <link rel="stylesheet" href="../css/procesar-diagnostico.css">
     <!-- Enlace al archivo JavaScript -->
     
 </head>
@@ -95,14 +95,19 @@ function mostrarFormulario(idCita) {
     var formulario = document.createElement("form");
     formulario.setAttribute("id", "formularioDiagnostico");
     formulario.innerHTML = `
-    <label for="descripcion">Descripción:</label><br>
-    <input type="text" id="descripcion" name="descripcion"><br>
+    <h2>Insertar Diagnóstico</h2>
+    <label for="descripcion">Descripción del diagnóstico:</label><br>
+    <input type="text" id="descripcion" name="descripcion"><br><br>
     <label for="recomendacion">Recomendación:</label><br>
     <input type="text" id="recomendacion" name="recomendacion"><br><br>
     <div id="medicamentos"></div>
-    <button type="button" onclick="agregarMedicamento()">Añadir Medicamento</button><br><br>
+    <button type="button" onclick="agregarMedicamento()" id="botonMedicamento">Añadir Medicamento</button><br><br>
     <input type="hidden" name="cita_id" value="${idCita}">
-    <input type="button" value="Insertar Diagnóstico" onclick="enviarFormulario()">
+    <button type="button" onclick="enviarFormulario()">Insertar Diagnóstico</button><br><br>
+    <button type="button" href="../menu-medico.php" id="volver">Volver al menú de médico <span class="material-symbols-outlined">
+        home
+        </span>
+    </a>
     `;
     document.body.appendChild(formulario);
 }
@@ -112,8 +117,9 @@ function agregarMedicamento() {
     var divMedicamentos = document.getElementById("medicamentos");
     var nuevoMedicamento = document.createElement("div");
     nuevoMedicamento.innerHTML = `
+    <h3>Medicamento ${numMedicamentos}</h3>
     <label for="nombre_medicamento${numMedicamentos}">Nombre del Medicamento:</label><br>
-    <input type="text" id="nombre_medicamento${numMedicamentos}" name="nombre_medicamento[]"><br>
+    <input type="text" id="nombre_medicamento${numMedicamentos}" name="nombre_medicamento[]"><br><br>
     <label for="frecuencia${numMedicamentos}">Frecuencia del Medicamento:</label><br>
     <input type="text" id="frecuencia${numMedicamentos}" name="frecuencia[]"><br><br>
     `;
@@ -129,6 +135,8 @@ function enviarFormulario() {
     formulario.submit();
 }
 </script>
+
+
 	
 </body>
 </html>
