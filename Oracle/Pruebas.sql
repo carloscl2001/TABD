@@ -9,7 +9,7 @@ BEGIN
     
     
     Insertar_Hospital('Hospital Universitario Puerta del Mar', 'Cadiz', 'Av. Ana de Viya, 21');
-    Insertar_Hospital('Hospital Universitario Puerto Real', 'Puerto Real', 'Calle Romería, 7');
+    Insertar_Hospital('Hospital Universitario Puerto Real', 'Puerto Real', 'Calle Romerï¿½a, 7');
     Insertar_Hospital('Carlos III', 'San Fernando', 'C. de Sinesio Delgado, 10');
 
     
@@ -21,7 +21,7 @@ BEGIN
     Insertar_Departamento('Hospital Universitario Puerto Real', 'Dermatologia', 'Piso 5');
     Insertar_Departamento('Carlos III', 'Dermatologia', 'Piso 3');
      
-    Insertar_Departamento('Hospital Universitario Puerta del Mar', 'Aantomia', 'Piso 2');
+    Insertar_Departamento('Hospital Universitario Puerta del Mar', 'Anatomia', 'Piso 2');
     Insertar_Departamento('Hospital Universitario Puerto Real', 'Anatomia', 'Piso 5');
     --PARA METER -> Insertar_Departamento('Carlos III', 'Dermatologia', 'Piso 3');
     

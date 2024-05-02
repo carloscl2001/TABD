@@ -135,3 +135,32 @@ BEGIN
     RETURN resultado;
 END;
 /
+
+-- Función para obtener los departamentos utilizando un cursor
+create or replace FUNCTION Obtener_Citas_Pendientes_Cursor(
+    p_hospital IN VARCHAR2,
+    p_departamento IN VARCHAR2,
+    p_fecha IN VARCHAR2
+) RETURN SYS_REFCURSOR IS
+    resultado SYS_REFCURSOR;
+BEGIN
+    OPEN resultado FOR
+    SELECT 
+        c.Id_Cita, 
+        c.Fecha, 
+        TO_CHAR(c.Hora, 'HH24:MI:SS') AS Hora_Cita, 
+        c.Id_Medico, 
+        m.Nombre AS Nombre_Medico
+    FROM 
+        Tabla_Cita c
+        JOIN Tabla_Medico m ON c.Id_medico = m.Id_medico
+        JOIN Tabla_Departamento d ON m.Id_departamento = d.Id_departamento
+        JOIN Tabla_Hospital h ON d.Id_hospital = h.Id_hospital
+    WHERE 
+        h.Nombre = p_hospital 
+        AND d.Nombre = p_departamento 
+        AND c.Estado = 'Paciente sin asignar'
+        AND c.Fecha = TO_DATE(p_fecha, 'DD/MM/YYYY');
+
+    RETURN resultado;
+END;

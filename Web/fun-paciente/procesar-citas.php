@@ -32,81 +32,66 @@ session_start();
         <h1>Citas Disponibles</h1>
 
         <?php
+// Conecta al servicio XE (esto es, una base de datos) en el servidor "localhost"
+include('../conexion.php');
+$conexion = conexion();
 
-            // Conecta al servicio XE (esto es, una base de datos) en el servidor "localhost"
-            include('../conexion.php');
-            $conexion = conexion();
+$hospital = $_POST['hospital'];
+$departamento = $_POST['departamento'];
+$fecha_formulario = $_POST['fecha'];
 
-            $hospital = $_POST['hospital'];
-            $departamento = $_POST['departamento'];
-            $fecha_formulario = $_POST['fecha'];
+$fecha  = date('d/m/Y', strtotime($fecha_formulario));
 
-            $fecha  = date('d/m/Y', strtotime($fecha_formulario));
+echo "<h2>Hospital: $hospital</h2>";
+echo "<h2>Departamento: $departamento</h2>";
+echo "<h2>Fecha: $fecha</h2>";
 
+// Preparar la llamada a la función que devuelve un cursor con las citas pendientes
+$cursor = oci_new_cursor($conexion);
+$consulta = oci_parse($conexion, "BEGIN :cursor := Obtener_Citas_Pendientes_Cursor(:hospital, :departamento, :fecha); END;");
 
-            echo "<h2>Hospital: $hospital</h2>";
-            echo "<h2>Departamento: $departamento</h2>";
-            echo "<h2>Fecha: $fecha</h2>";
+// Asignar el parámetro de salida para el cursor
+oci_bind_by_name($consulta, ":cursor", $cursor, -1, OCI_B_CURSOR);
+oci_bind_by_name($consulta, ":hospital", $hospital);
+oci_bind_by_name($consulta, ":departamento", $departamento);
+oci_bind_by_name($consulta, ":fecha", $fecha);
 
-// Consulta SQL para obtener las citas según el hospital, departamento y fecha
-            $sql = "SELECT 
-                        c.Id_Cita, 
-                        c.Fecha, 
-                        TO_CHAR(c.Hora, 'HH24:MI:SS') AS Hora_Cita, 
-                        c.Id_Medico, 
-                        m.Nombre AS Nombre_Medico
-                    FROM 
-                        Tabla_Cita c
-                        JOIN Tabla_Medico m ON c.Id_medico = m.Id_medico
-                        JOIN Tabla_Departamento d ON m.Id_departamento = d.Id_departamento
-                        JOIN Tabla_Hospital h ON d.Id_hospital = h.Id_hospital
-                    WHERE 
-                        h.Nombre = :hospital 
-                        AND d.Nombre = :departamento 
-                        AND c.Estado = 'Paciente sin asignar'
-                        AND c.Fecha = TO_DATE(:fecha, 'DD/MM/YYYY')";
+// Ejecutar la consulta
+oci_execute($consulta);
+oci_execute($cursor);
 
-            // Preparar la consulta
-            $stid = oci_parse($conexion, $sql);
+// Mostrar los resultados en una tabla
+echo "<table class='table table-striped'>\n";
+echo "<thead>";
+echo "<tr>";
+echo "<th>Id de la cita</th>";
+echo "<th>Fecha de la cita</th>";
+echo "<th>Hora de la cita</th>";
+echo "<th>Id del Medico</th>";
+echo "<th>Medico de la Cita</th>";
+echo "<th>Seleccionar</th>"; // Agregar una nueva columna para el botón "Seleccionar"
+echo "</tr>";
+echo "</thead>";
+while ($row = oci_fetch_array($cursor, OCI_ASSOC+OCI_RETURN_NULLS)) {
+    echo "<tr>\n";
+    foreach ($row as $item) {
+        echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
+    }
+    // Agregar el formulario y el botón "Seleccionar" en cada fila de la tabla
+    echo "<td>";
+    echo "<form action='actualizar-seleccion.php' method='post'>";
+    echo "<input type='hidden' name='cita_id' value='" . $row['ID_CITA'] . "'>"; // Pasar el ID de la cita
+    echo "<button type='submit'>Seleccionar</button>"; // Botón "Seleccionar"
+    echo "</form>";
+    echo "</td>";
+    echo "</tr>\n";
+}
+echo "</table>\n";
 
-            // Bind de los parámetros
-            oci_bind_by_name($stid, ":hospital", $hospital);
-            oci_bind_by_name($stid, ":departamento", $departamento);
-            oci_bind_by_name($stid, ":fecha", $fecha);
-            
-            
-            
-            oci_execute($stid);
-
-
-
-            echo "<table class='table table-striped'>\n";
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>Id de la cita</th>";
-            echo "<th>Fecha de la cita</th>";
-            echo "<th>Hora de la cita</th>";
-            echo "<th>Id del Medico</th>";
-            echo "<th>Medico de la Cita</th>";
-            echo "<th>Seleccionar</th>"; // Agregar una nueva columna para el botón "Seleccionar"
-            echo "</tr>";
-            echo "</thead>";
-            while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-                echo "<tr>\n";
-                foreach ($row as $item) {
-                    echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
-                }
-                // Agregar el formulario y el botón "Seleccionar" en cada fila de la tabla
-                echo "<td>";
-                echo "<form action='actualizar-seleccion.php' method='post'>";
-                echo "<input type='hidden' name='cita_id' value='" . $row['ID_CITA'] . "'>"; // Pasar el ID de la cita
-                echo "<button type='submit'>Seleccionar</button>"; // Botón "Seleccionar"
-                echo "</form>";
-                echo "</td>";
-                echo "</tr>\n";
-            }
-            echo "</table>\n";
-        ?>
+// Liberar recursos
+oci_free_statement($consulta);
+oci_close($conexion);
+?>
 
     </div>
 

@@ -40,11 +40,11 @@
     
     oci_execute($stid);
 
-    echo "<br><br><hr style='border-top: 3px solid orange; border-bottom: 3px solid orange;'><p style='color:orange; text-align:center;'>Se han creado citas para todos los médicos.</p><hr style='border-top: 3px solid orange; border-bottom: 3px solid orange;'>";
+    echo "<br><br><hr style='border-top: 3px solid orange; border-bottom: 3px solid orange;'><p style='color:orange; text-align:center; font-size: 1.5em;'>Se han creado citas para todos los médicos.</p><hr style='border-top: 3px solid orange; border-bottom: 3px solid orange;'>";
     ?>
 </div>
 
-<a href="../menu-paciente.php" id="volver">Volver al menú de paciente <span class="material-symbols-outlined">
+<a href="../menu-admin.php" id="volver">Volver al menú del admin <span class="material-symbols-outlined">
     home
     </span>
 </a>

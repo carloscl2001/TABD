@@ -38,8 +38,6 @@
             c.Id_Cita, c.Fecha, TO_CHAR(c.Hora, \'HH24:MI:SS\') AS Hora_Cita, c.Id_Medico, c.Id_Paciente, c.Estado
         FROM 
             Tabla_Cita c
-            JOIN Tabla_Paciente p ON c.Id_paciente = p.Id_paciente
-            JOIN Tabla_Medico m ON c.Id_medico = m.Id_medico
          ');
     
     oci_execute($stid);
@@ -62,11 +60,6 @@
             echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
         }
         // Añadido un botón para ver detalles solo si el estado es "Diagnóstico completo"
-        if ($row['ESTADO'] === 'Diagnostico Completo') {
-            echo "<td><a href='ver-detalles-cita.php?id_cita=" . $row['ID_CITA'] . "'>Ver detalles</a></td>";
-        } else {
-            echo "<td></td>";
-        }
         echo "</tr>\n";
     }
     echo "</table>\n";
@@ -74,7 +67,7 @@
 
 </div>
 
-<a href="../menu-paciente.php" id="volver">Volver al menú de paciente <span class="material-symbols-outlined">
+<a href="../menu-admin.php" id="volver">Volver al menú del admin <span class="material-symbols-outlined">
     home
     </span>
 </a>

@@ -44,7 +44,7 @@
     ?>
 </div>
 
-<a href="../menu-paciente.php" id="volver">Volver al menú de paciente <span class="material-symbols-outlined">
+<a href="../menu-admin.php" id="volver">Volver al menú del admin <span class="material-symbols-outlined">
     home
     </span>
 </a>

@@ -34,8 +34,6 @@
     session_start();
 
     $paciente_id = $_SESSION['id_paciente'];
-    $email = $_SESSION['email'];
-    echo "<h1>Paciente: $email</h1>";
 
 
     $stid = oci_parse($conexion, 
