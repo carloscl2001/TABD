@@ -15,6 +15,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
     <link rel="stylesheet" href="../css/ver.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 
@@ -33,12 +49,33 @@
     // Obtener el ID de la cita de la URL
     $id_cita = $_GET['id_cita'];
 
-    // Obtener detalles de la cita
-    $stid = oci_parse($conexion, 
+    // Obtener detalles del diagnóstico
+    $stid_diagnostico = oci_parse($conexion, 
         'SELECT 
             d.Descripcion AS Descripcion_diagnostico,
-            d.Recomendacion AS Recomendacion_diagnostico,
-            d.Id_diagnostico,
+            d.Recomendacion AS Recomendacion_diagnostico
+        FROM 
+            Tabla_Cita c
+            JOIN Tabla_Diagnostico d ON c.Id_diagnostico = d.Id_diagnostico
+        WHERE
+            c.Id_Cita = :id_cita
+         ');
+    
+    oci_bind_by_name($stid_diagnostico, ":id_cita", $id_cita);
+    oci_execute($stid_diagnostico);
+
+    // Mostrar detalles del diagnóstico
+    echo "<h2>Diagnóstico:</h2>";
+    echo "<ul>";
+    while ($row = oci_fetch_assoc($stid_diagnostico)) {
+        echo "<li><strong>Descripción:</strong> " . $row['DESCRIPCION_DIAGNOSTICO'] . "</li>";
+        echo "<li><strong>Recomendación:</strong> " . $row['RECOMENDACION_DIAGNOSTICO'] . "</li>";
+    }
+    echo "</ul>";
+
+    // Obtener detalles de los medicamentos
+    $stid_medicamentos = oci_parse($conexion, 
+        'SELECT 
             m.Nombre AS Nombre_medicamento,
             m.Frecuencia AS Frecuencia_medicamento
         FROM 
@@ -48,38 +85,25 @@
         WHERE
             c.Id_Cita = :id_cita
          ');
-    
-    oci_bind_by_name($stid, ":id_cita", $id_cita);
-    oci_execute($stid);
 
-    // Mostrar detalles de la cita
-    echo "<h2>Diagnóstico:</h2>";
-    echo "<ul>";
-    while ($row = oci_fetch_assoc($stid)) {
-        echo "<li><strong>Descripción:</strong> " . $row['DESCRIPCION_DIAGNOSTICO'] . "</li>";
-        echo "<li><strong>Recomendación:</strong> " . $row['RECOMENDACION_DIAGNOSTICO'] . "</li>";
+    oci_bind_by_name($stid_medicamentos, ":id_cita", $id_cita);
+    oci_execute($stid_medicamentos);
 
-        // Mostrar medicamentos asociados a este diagnóstico
-        echo "<h3>Medicamentos:</h3>";
-        echo "<ul>";
-        
-        // Verificar si hay medicamentos asociados
-        if ($row['NOMBRE_MEDICAMENTO'] !== null) {
-            // Mostrar medicamentos
-            do {
-                echo "<li><strong>Nombre:</strong> " . $row['NOMBRE_MEDICAMENTO'] . "</li>";
-                echo "<li><strong>Frecuencia:</strong> " . $row['FRECUENCIA_MEDICAMENTO'] . "</li>";
-            } while ($med_row = oci_fetch_assoc($stid) && $med_row['ID_DIAGNOSTICO'] === $row['ID_DIAGNOSTICO']); // Mostrar medicamentos mientras pertenezcan al mismo diagnóstico
-        } else {
-            echo "<li>No hay medicamentos asociados a este diagnóstico.</li>";
-        }
-        
-        echo "</ul>";
+    // Mostrar detalles de los medicamentos
+    echo "<h2>Medicamentos:</h2>";
+    echo "<table>";
+    echo "<tr><th>Nombre</th><th>Frecuencia</th></tr>";
+    while ($med_row = oci_fetch_assoc($stid_medicamentos)) {
+        echo "<tr>";
+        echo "<td>" . $med_row['NOMBRE_MEDICAMENTO'] . "</td>";
+        echo "<td>" . $med_row['FRECUENCIA_MEDICAMENTO'] . "</td>";
+        echo "</tr>";
     }
-    echo "</ul>";
+    echo "</table>";
 
     // Liberar recursos
-    oci_free_statement($stid);
+    oci_free_statement($stid_diagnostico);
+    oci_free_statement($stid_medicamentos);
     oci_close($conexion);
     ?>
 
