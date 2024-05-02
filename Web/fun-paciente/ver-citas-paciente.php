@@ -73,7 +73,7 @@
             echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
         }
         // Añadir un botón de ver detalles si el estado es "Diagnóstico Completo"
-        if ($row['ESTADO'] === 'Diagnóstico Completo') {
+        if ($row['ESTADO'] === 'Diagnostico Completo') {
             echo "<td><a href='ver-detalles-cita.php?id_cita=" . $row['ID_CITA'] . "'>Ver detalles</a></td>";
         } elseif ($row['ESTADO'] === 'Paciente Asignado') { // Añadir un botón de cancelar cita si el estado es "Paciente Asignado"
             echo "<td><a href='cancelar-cita.php?id_cita=" . $row['ID_CITA'] . "' style='background-color: red;'>Cancelar Cita</a></td>";
