@@ -60,9 +60,9 @@
     echo "<th>Email</th>";
     echo "<th>PIN</th>";
     echo "<th>Id Hospital</th>";
-    echo "<th>Nombre Hospital</th>";
-    echo "<th>Id Departamento</th>";
     echo "<th>Nombre Departamento</th>";
+    echo "<th>Id Departamento</th>";
+    echo "<th>Nombre del Hospital</th>";
     echo "</tr>";
     echo "</thead>";
 

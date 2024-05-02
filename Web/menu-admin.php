@@ -112,8 +112,35 @@
             </span>
         </a>
         
-        <h2>Otras opciones <span class="material-symbols-outlined">
-            settings
+        <h2>Opciones de las citas <span class="material-symbols-outlined">
+            event
+            </span>
+        </h2>
+
+
+
+        <a href="admin-citas/crear-citas.php">Crear citas
+            <span class="material-symbols-outlined">
+                event
+            </span>
+        </a>
+
+        <a href="admin-citas/ver-citas.php">Ver citas
+            <span class="material-symbols-outlined">
+                event
+            </span>
+        </a>
+
+
+        <a href="admin-citas/eliminar-citas.php">Cancelar las citas
+            <span class="material-symbols-outlined">
+                event
+            </span>
+        </a>
+
+
+        <h2>Salir <span class="material-symbols-outlined">
+            logout
             </span>
         </h2>
 
@@ -122,17 +149,6 @@
             </span>
         </a>
 
-        <br><br>
-
-        <?php
-           
-            // Incluir el archivo de conexión a la base de datos Oracle
-            echo "<form action='/admin-citas/actualizar-menu.php' method='post'>";
-
-            echo "<button type='submit'>Crear Citas</button>"; // Botón "Seleccionar"
-        
-        ?>
-        
     
     </div>
     

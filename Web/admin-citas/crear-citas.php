@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HospiHub - Citas Disponibles</title>
+    <title>HospiHub - Crear todas las citas</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Metadatos del autor y diseñador del sitio -->
@@ -14,31 +14,39 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Enlaces a los archivos CSS -->
-    <link rel="stylesheet" href="../css/procesar-citas.css">
-    <!-- Enlace al archivo JavaScript hola jefe -->
-    
+    <link rel="stylesheet" href="../css/ver.css">
 </head>
 <body>
-<?php// Conectar a la base de datos
-    include('conexion.php');
+
+<nav>
+    <div id="logo">HospiHub</div>
+</nav>
+
+<div id="contenedor">
+    <h1>Cancelar todas las citas</h1>
+    <?php
+
+    // Conecta al servicio XE (esto es, una base de datos) en el servidor "localhost"
+    include('../conexion.php');
     $conexion = conexion();
 
-    // Preparar la consulta SQL para actualizar la cita con el ID del paciente y cambiar su estado
-    $sql = "BEGIN Crear_Citas(); END;";
-    $stmt = oci_parse($conexion, $sql);
 
 
-    // Ejecutar la consulta
-    $resultado = oci_execute($stmt);
+    $stid = oci_parse($conexion, 
+        'BEGIN
+            Crear_Citas();
+        END;
+         ');
+    
+    oci_execute($stid);
 
-    echo "Citas creadas correctamente";
-?>
-<br><br>
+    echo "<br><br><hr style='border-top: 3px solid orange; border-bottom: 3px solid orange;'><p style='color:orange; text-align:center;'>Se han creado citas para todos los médicos.</p><hr style='border-top: 3px solid orange; border-bottom: 3px solid orange;'>";
+    ?>
+</div>
 
-<br>
-<a href="menu-admin.php">Regresar al menú del admin <span class="material-symbols-outlined">
-        arrow_left_alt
-        </span></a>
-
+<a href="../menu-paciente.php" id="volver">Volver al menú de paciente <span class="material-symbols-outlined">
+    home
+    </span>
+</a>
 </body>
 </html>

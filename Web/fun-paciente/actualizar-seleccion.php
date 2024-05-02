@@ -19,6 +19,11 @@
     
 </head>
 <body>
+    <header>   
+        <nav>
+            <div id="logo">HospiHub</div>
+        </nav>
+    </header>
 <?php
     session_start(); // Iniciar la sesión para acceder al id_paciente
 
@@ -46,7 +51,7 @@
 
         // Verificar si la actualización fue exitosa
         if ($resultado) {
-            echo "<br><br><hr style='border-top: 3px solid #52ee57; border-bottom: 3px solid #52ee57;'><p style='color:#52ee57; text-align:center;'>Su cita ha sido reservada correctamente.</p><hr style='border-top: 3px solid #52ee57; border-bottom: 3px solid #52ee57;'>";
+            echo "<br><br><br><br><br><hr style='border-top: 3px solid #52ee57; border-bottom: 3px solid #52ee57;'><p style='color:#52ee57; text-align:center; font-size: 1.5em;' >Su cita ha sido reservada correctamente.</p><hr style='border-top: 3px solid #52ee57; border-bottom: 3px solid #52ee57;'>";
         } else {
             echo "Error al asignar la cita.";
         }

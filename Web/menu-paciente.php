@@ -29,7 +29,7 @@ echo "ID del paciente: $id_paciente";
     <br><br><br><br>
 
     <h2>Menú de Paciente <span class="material-symbols-outlined">
-        personal_injury</span></h1>
+        personal_injury</span></h2>
 
    
 
