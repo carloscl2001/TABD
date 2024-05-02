@@ -109,9 +109,15 @@
 
 </div>
 
+<a href="ver-citas-paciente.php" id="volver">Volver a las citas <span class="material-symbols-outlined">
+        arrow_left_alt
+    </span>
+    </a>
+    <br></br>
 <a href="../menu-paciente.php" id="volver">Volver al menú de paciente <span class="material-symbols-outlined">
     home
     </span>
 </a>
+
 </body>
 </html>
