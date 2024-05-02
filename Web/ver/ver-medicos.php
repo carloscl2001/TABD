@@ -20,62 +20,55 @@
     
     <h1>Lista de Medicos del Sistema</h1>
 
-<?php
+    <?php
+// Conecta al servicio XE (esto es, una base de datos) en el servidor "localhost"
+include('../conexion.php');
+$conexion = conexion();
 
-    // Conecta al servicio XE (esto es, una base de datos) en el servidor "localhost"
-    include('../conexion.php');
-    $conexion = conexion();
+// Preparar la llamada al procedimiento almacenado
+$cursor = oci_new_cursor($conexion);
+$consulta = oci_parse($conexion, "BEGIN :cursor := Obtener_Medicos_Cursor; END;");
 
-    $stid = oci_parse($conexion, 'SELECT 
-        m.Id_medico,
-        m.Nombre,
-        m.Apellidos,
-        m.Telefono,
-        m.Fecha_nacimiento,
-        m.Direccion.Ciudad AS Ciudad,
-        m.Direccion.Calle AS Calle,
-        m.Email,
-        m.PIN,
-        d.Id_departamento,
-        d.Nombre AS Nombre_departamento,
-        h.Id_hospital,
-        h.Nombre AS Nombre_hospital
-    FROM 
-        Tabla_Medico m
-        JOIN Tabla_Departamento d ON m.Id_departamento = d.Id_departamento
-        JOIN Tabla_Hospital h ON d.Id_hospital = h.Id_hospital');
+// Asignar el parámetro de salida para el cursor
+oci_bind_by_name($consulta, ":cursor", $cursor, -1, OCI_B_CURSOR);
 
-    oci_execute($stid);
+// Ejecutar la consulta
+oci_execute($consulta);
+oci_execute($cursor);
 
-    echo "<table class='table table-striped'>\n";
-    echo "<thead>";
-    echo "<tr>";
-    echo "<th>Id del Médico</th>";
-    echo "<th>Nombre</th>";
-    echo "<th>Apellidos</th>";
-    echo "<th>Telefono</th>";
-    echo "<th>Fecha de nacimiento</th>";
-    echo "<th>Ciudad</th>";
-    echo "<th>Calle</th>";
-    echo "<th>Email</th>";
-    echo "<th>PIN</th>";
-    echo "<th>Id Hospital</th>";
-    echo "<th>Nombre Departamento</th>";
-    echo "<th>Id Departamento</th>";
-    echo "<th>Nombre del Hospital</th>";
-    echo "</tr>";
-    echo "</thead>";
-
-    while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-        echo "<tr>\n";
-        foreach ($row as $item) {
-            echo "<td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
-        }
-        echo "</tr>\n";
+// Mostrar los resultados en una tabla
+echo "<table class='table table-striped'>\n";
+echo "<thead>";
+echo "<tr>";
+echo "<th>Id del Médico</th>";
+echo "<th>Nombre</th>";
+echo "<th>Apellidos</th>";
+echo "<th>Telefono</th>";
+echo "<th>Fecha de nacimiento</th>";
+echo "<th>Ciudad</th>";
+echo "<th>Calle</th>";
+echo "<th>Email</th>";
+echo "<th>PIN</th>";
+echo "<th>Id Hospital</th>";
+echo "<th>Nombre Departamento</th>";
+echo "<th>Id Departamento</th>";
+echo "<th>Nombre del Hospital</th>";
+echo "</tr>";
+echo "</thead>";
+while ($row = oci_fetch_array($cursor, OCI_ASSOC+OCI_RETURN_NULLS)) {
+    echo "<tr>\n";
+    foreach ($row as $item) {
+        echo "<td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
     }
+    echo "</tr>\n";
+}
+echo "</table>\n";
 
-    echo "</table>\n";
+// Liberar recursos
+oci_free_statement($consulta);
+oci_close($conexion);
 ?>
+
 
 <a href="../menu-admin.php">Regresar al menú del administrador <span class="material-symbols-outlined">
             arrow_left_alt
