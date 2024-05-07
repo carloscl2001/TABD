@@ -15,6 +15,10 @@ EXCEPTION
 END;
 /
 
+
+---------------------------------------
+  --OBTENER DEPARTAMENTOS HOSPITALES--
+---------------------------------------
 CREATE OR REPLACE FUNCTION Obtener_Departamentos_Hospitales_Cursor RETURN SYS_REFCURSOR AS
     v_cursor SYS_REFCURSOR;
 BEGIN
@@ -88,7 +92,9 @@ BEGIN
 END;
 /
 
--- Función para obtener los médicos utilizando un cursor
+-------------------------------
+  --OBTENER MEDICOS --    
+-------------------------------
 CREATE OR REPLACE FUNCTION Obtener_Medicos_Cursor RETURN SYS_REFCURSOR IS
     resultado SYS_REFCURSOR;
 BEGIN
@@ -115,7 +121,9 @@ BEGIN
 END;
 /
 
--- Función para obtener los pacientes utilizando un cursor
+-------------------------------
+  --OBTENER PACIENTES --    
+-------------------------------
 CREATE OR REPLACE FUNCTION Obtener_Pacientes_Cursor RETURN SYS_REFCURSOR IS
     resultado SYS_REFCURSOR;
 BEGIN
