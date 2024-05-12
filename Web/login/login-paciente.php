@@ -32,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = $_POST["email"];
     $pin = $_POST["pin"];
     // Consultar la función en la base de datos
-    $sql = "BEGIN :resultado := Verificar_Credenciales_Paciente(:email, :pin); END;";
+    $sql = "BEGIN :resultado := Otros.Verificar_Credenciales_Paciente(:email, :pin); END;";
     $stid = oci_parse($conexion, $sql);
 
     // Bind de los parámetros

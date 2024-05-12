@@ -40,7 +40,7 @@
         $departamento = $_POST["departamento"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Medico(:hospital,:departamento, :nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
+        $sql = "BEGIN Insertar.Insertar_Medico(:hospital,:departamento, :nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":nombre", $nombre);
         oci_bind_by_name($stid, ":apellidos", $apellidos);

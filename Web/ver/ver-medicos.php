@@ -27,7 +27,7 @@ $conexion = conexion();
 
 // Preparar la llamada al procedimiento almacenado
 $cursor = oci_new_cursor($conexion);
-$consulta = oci_parse($conexion, "BEGIN :cursor := Obtener_Medicos_Cursor; END;");
+$consulta = oci_parse($conexion, "BEGIN :cursor := Obtener.Obtener_Medicos_Cursor; END;");
 
 // Asignar el parámetro de salida para el cursor
 oci_bind_by_name($consulta, ":cursor", $cursor, -1, OCI_B_CURSOR);

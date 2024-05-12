@@ -48,7 +48,7 @@ echo "<h2>Fecha: $fecha</h2>";
 
 // Preparar la llamada a la función que devuelve un cursor con las citas pendientes
 $cursor = oci_new_cursor($conexion);
-$consulta = oci_parse($conexion, "BEGIN :cursor := Obtener_Citas_Pendientes_Cursor(:hospital, :departamento, :fecha); END;");
+$consulta = oci_parse($conexion, "BEGIN :cursor := Obtener.Obtener_Citas_Pendientes_Cursor(:hospital, :departamento, :fecha); END;");
 
 // Asignar el parámetro de salida para el cursor
 oci_bind_by_name($consulta, ":cursor", $cursor, -1, OCI_B_CURSOR);

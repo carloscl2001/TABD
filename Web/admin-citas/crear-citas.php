@@ -34,7 +34,7 @@
 
     $stid = oci_parse($conexion, 
         'BEGIN
-            Crear_Citas();
+            Otros.Crear_Citas();
         END;
          ');
     

@@ -11,7 +11,7 @@
         $ubicacion = $_POST["ubicacion"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Departamento(:nombre_hospital, :nombre_departamento, :ubicacion); END;";
+        $sql = "BEGIN Insertar.Insertar_Departamento(:nombre_hospital, :nombre_departamento, :ubicacion); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":nombre_hospital", $nombre_hospital);
         oci_bind_by_name($stid, ":nombre_departamento", $nombre_departamento);

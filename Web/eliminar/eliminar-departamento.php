@@ -13,7 +13,7 @@
         $nombre_hospital = $_POST["nombre_hospital"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Eliminar_Departamento(:nombre_departamento, :nombre_hospital); END;";
+        $sql = "BEGIN Eliminar.Eliminar_Departamento(:nombre_departamento, :nombre_hospital); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":nombre_departamento", $nombre_departamento);
         oci_bind_by_name($stid, ":nombre_hospital", $nombre_hospital);

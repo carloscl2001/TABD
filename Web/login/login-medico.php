@@ -34,7 +34,7 @@
         $pin = $_POST["pin"];
 
         // Consultar la función en la base de datos
-        $sql = "BEGIN :resultado := Verificar_Credenciales_Medico(:email, :pin); END;";
+        $sql = "BEGIN :resultado := Otros.Verificar_Credenciales_Medico(:email, :pin); END;";
         $stid = oci_parse($conexion, $sql);
 
         // Bind de los parámetros

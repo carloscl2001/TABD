@@ -12,7 +12,7 @@
         $email_medico = $_POST["email_medico"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Eliminar_Medico(:email_medico); END;";
+        $sql = "BEGIN Eliminar.Eliminar_Medico(:email_medico); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":email_medico", $email_medico);
         oci_execute($stid);

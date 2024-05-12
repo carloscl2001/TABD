@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cita_id']) && isset($_
     $conexion = conexion();
 
     // Preparar la consulta para insertar el diagnóstico
-    $sqlDiagnostico = "BEGIN Insertar_Diagnostico(:cita_id, :descripcion, :recomendacion); END;";
+    $sqlDiagnostico = "BEGIN Insertar.Insertar_Diagnostico(:cita_id, :descripcion, :recomendacion); END;";
     $stmtDiagnostico = oci_parse($conexion, $sqlDiagnostico);
 
     // Bind de los parámetros

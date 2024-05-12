@@ -39,7 +39,7 @@
         $conexion = conexion();
 
         // Preparar la consulta SQL para actualizar la cita con el ID del paciente y cambiar su estado
-        $sql = "BEGIN Asignar_Cita(:id_paciente, :id_cita); END;";
+        $sql = "BEGIN Otros.Asignar_Cita(:id_paciente, :id_cita); END;";
         $stmt = oci_parse($conexion, $sql);
 
         // Bind de los parámetros

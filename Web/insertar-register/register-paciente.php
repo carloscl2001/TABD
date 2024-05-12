@@ -46,7 +46,7 @@
         echo $pin;
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Paciente(:nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
+        $sql = "BEGIN Insertar.Insertar_Paciente(:nombre, :apellidos, :telefono, TO_DATE(:fecha_nacimiento, 'YYYY-MM-DD'), :ciudad, :calle, :email, :pin); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":nombre", $nombre);
         oci_bind_by_name($stid, ":apellidos", $apellidos);

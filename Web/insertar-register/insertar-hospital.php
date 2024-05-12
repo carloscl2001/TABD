@@ -11,7 +11,7 @@
         $calle = $_POST["calle"];
 
         // Preparar y ejecutar la consulta SQL
-        $sql = "BEGIN Insertar_Hospital(:nombre, :ciudad, :calle); END;";
+        $sql = "BEGIN Insertar.Insertar_Hospital(:nombre, :ciudad, :calle); END;";
         $stid = oci_parse($conexion, $sql);
         oci_bind_by_name($stid, ":nombre", $nombre);
         oci_bind_by_name($stid, ":ciudad", $ciudad);
